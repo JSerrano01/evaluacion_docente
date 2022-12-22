@@ -12,14 +12,12 @@ Class Action {
 
 	public function __construct() {
 		ob_start();
-   	include '../bd/conexion.php';
-    
-    $this->db = $conn;
+	include '../bd/conexion.php';
+	$objeto = new Conexion();
+	$conexion = $objeto->Conectar();
+    $this->db = $conexion;
 	}
-	function __destruct() {
-	    $this->db->close();
-	    ob_end_flush();
-	}
+
 	function cargar_ae_doc_cat(){
 		#$array=json_decode($_POST['datos']);
 		$dato = $_POST['datos'];

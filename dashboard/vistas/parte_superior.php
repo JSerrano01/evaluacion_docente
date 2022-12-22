@@ -30,7 +30,7 @@ if($_SESSION["s_usuario"] === null){
   <link rel="stylesheet" type="text/css" href="vendor/datatables/datatables.min.css"/>
   <!--datables estilo bootstrap 4 CSS-->  
   <link rel="stylesheet"  type="text/css" href="vendor/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">      
-    
+  <link rel="stylesheet" href="../plugins/sweetalert2/sweetalert2.min.css">
 </head>
 
 <body id="page-top">
