@@ -18,7 +18,7 @@ if($_SESSION["s_usuario"] === null){
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>EvalReporter</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,11 +26,10 @@ if($_SESSION["s_usuario"] === null){
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!--datables CSS básico-->
-    <link rel="stylesheet" type="text/css" href="vendor/datatables/datatables.min.css"/>
-    <!--datables estilo bootstrap 4 CSS-->  
-    <link rel="stylesheet"  type="text/css" href="vendor/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">      
+  <!--datables CSS básico-->
+  <link rel="stylesheet" type="text/css" href="vendor/datatables/datatables.min.css"/>
+  <!--datables estilo bootstrap 4 CSS-->  
+  <link rel="stylesheet"  type="text/css" href="vendor/datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">      
     
 </head>
 
@@ -44,10 +43,7 @@ if($_SESSION["s_usuario"] === null){
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">EvalReporter <sup>1</sup></div>
       </a>
 
       <!-- Divider -->
@@ -57,7 +53,7 @@ if($_SESSION["s_usuario"] === null){
       <li class="nav-item active">
         <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Maestra de docentes</span></a>
       </li>
 
       <!-- Divider -->
@@ -76,9 +72,12 @@ if($_SESSION["s_usuario"] === null){
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.php">Buttons</a>
-            <a class="collapse-item" href="cards.php">Cards</a>
+            <h6 class="collapse-header">Maestras de evaluación:</h6>
+            <a class="collapse-item" href="a_e_doc_cat.php">A.E docentes con cátedra</a>
+            <a class="collapse-item" href="a_e_doc_sin_cat.php">A.E docentes sin cátedra</a>
+            <a class="collapse-item" href="e_dec_cat.php">E. Decano cátedra</a>
+            <a class="collapse-item" href="e_dec_planta.php">E. Decano planta</a>
+            <a class="collapse-item" href="e_estud.php">E. Decano planta</a>
           </div>
         </div>
       </li>

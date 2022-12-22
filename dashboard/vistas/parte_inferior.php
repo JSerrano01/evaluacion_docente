@@ -53,14 +53,102 @@
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
- 
+ <!-- Librería de excel y archivos -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
 
-  
-    <!-- datatables JS -->
-    <script type="text/javascript" src="vendor/datatables/datatables.min.js"></script>    
-    <!-- código propio JS --> 
-    <script type="text/javascript" src="main.js"></script>  
-    
+  <!-- datatables JS -->
+  <script type="text/javascript" src="vendor/datatables/datatables.min.js"></script>    
+  <!-- código propio JS --> 
+  <script type="text/javascript" src="main.js"></script>  
+  <script>
+    //función para subir datos desde excel
+    $('#upload').click(function()
+    {
+      //Reference the FileUpload element.
+      var fileUpload = $("#fileUpload")[0];
+      //Validate whether File is valid Excel file.
+      var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+      
+      if (regex.test(fileUpload.value.toLowerCase())) {
+        if (typeof (FileReader) != "undefined") {
+          var reader = new FileReader();
+
+          //For Browsers other than IE.
+          if (reader.readAsBinaryString) {
+            reader.onload = function (e) {
+              var dataFull = ProcessExcel(e.target.result)
+              console.log(dataFull[1].ID_ENCUESTA_QUSUARIO)
+              console.log(dataFull[1].ID_DOCENTE)
+              console.log(dataFull[1].FACULTAD)
+              console.log(dataFull[1].PROGRAMA)
+              console.log(dataFull[1].DOCUMENTO_DOCENTE)
+              console.log(dataFull[1].NOMBRE_DOCENTE)
+              console.log(dataFull[1].CARGO_DOCENTE)
+              console.log(dataFull[1].ENCUESTA)
+              console.log(dataFull[1].FECHA_DILIGENCIAMIENTO)
+              console.log(typeof(dataFull))
+              sendToDataBase(dataFull)
+            };
+            reader.readAsBinaryString(fileUpload.files[0]);
+          } else {
+            //For IE Browser.
+            reader.onload = function (e) {
+              var data = "";
+              var bytes = new Uint8Array(e.target.result);
+              for (var i = 0; i < bytes.byteLength; i++) {
+                data += String.fromCharCode(bytes[i]);
+              }
+            
+            };
+            reader.readAsArrayBuffer(fileUpload.files[0]);
+          }
+        } else {
+          alert("Este navegador no soporta HTML5.");
+        }
+      } else {
+        alert("Por favor suba un archivo de excel válido.");
+      }
+
+    })
+    function ProcessExcel(data) {
+              //Read the Excel File data.
+              var workbook = XLSX.read(data, {
+                  type: 'binary'
+              });
+
+              //Fetch the name of First Sheet.
+              var firstSheet = workbook.SheetNames[0];
+
+              //Read all rows from First Sheet into an JSON array.
+              var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+        return(excelRows)
+          };
+    function sendToDataBase(data){
+      var jsonData = JSON.stringify(data)
+      var dato1 = "Valor 1"
+      //start_load()
+      $.ajax({
+        url:'ajax.php?action=cargar_ae_doc_cat',
+        method: 'POST',
+        type: 'POST',
+        data:{datos : dato1},
+        success:function(resp){
+          console.log(resp)
+          if(resp == 1){
+            
+            alert_toast("Datos guardados satisfactoriamente",'success')
+            setTimeout(function(){
+              location.reload()
+            },1500)
+          }else{
+            $('#msg').html('<div class="alert alert-danger">Usuario ya existe</div>')
+            //end_load()
+          }
+        }
+      })
+    }
+  </script>
 
     
 
