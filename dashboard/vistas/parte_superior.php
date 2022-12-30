@@ -68,7 +68,7 @@ if($_SESSION["s_usuario"] === null){
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+          <span>Archivos planos</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -77,7 +77,7 @@ if($_SESSION["s_usuario"] === null){
             <a class="collapse-item" href="a_e_doc_sin_cat.php">A.E docentes sin cátedra</a>
             <a class="collapse-item" href="e_dec_cat.php">E. Decano cátedra</a>
             <a class="collapse-item" href="e_dec_planta.php">E. Decano planta</a>
-            <a class="collapse-item" href="e_estud.php">E. Decano planta</a>
+            <a class="collapse-item" href="e_estud.php">E. Estudiantes</a>
           </div>
         </div>
       </li>

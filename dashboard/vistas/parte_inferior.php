@@ -66,6 +66,10 @@
     //función para subir datos desde excel
     $('#upload').click(function()
     {
+      //get url path
+      let url = document.URL;
+      let url_php = url.split('/');
+      var path_url = url_php[url_php.length - 1]
       //Reference the FileUpload element.
       var fileUpload = $("#fileUpload")[0];
       //Validate whether File is valid Excel file.
@@ -79,17 +83,23 @@
           if (reader.readAsBinaryString) {
             reader.onload = function (e) {
               var dataFull = ProcessExcel(e.target.result)
-              console.log(dataFull[1].ID_ENCUESTA_QUSUARIO)
-              console.log(dataFull[1].ID_DOCENTE)
-              console.log(dataFull[1].FACULTAD)
-              console.log(dataFull[1].PROGRAMA)
-              console.log(dataFull[1].DOCUMENTO_DOCENTE)
-              console.log(dataFull[1].NOMBRE_DOCENTE)
-              console.log(dataFull[1].CARGO_DOCENTE)
-              console.log(dataFull[1].ENCUESTA)
-              console.log(dataFull[1].FECHA_DILIGENCIAMIENTO)
-              console.log(typeof(dataFull))
-              sendToDataBase(dataFull)
+              switch (path_url) {
+                case "a_e_doc_cat.php":
+                  sendToDataBase(dataFull, 'cargar_ae_doc_cat')
+                  break;
+                case "a_e_doc_sin_cat.php":
+                  sendToDataBase(dataFull, 'cargar_ae_doc_sin_cat')
+                  break;
+                case "e_dec_cat.php":
+                  sendToDataBase(dataFull, 'cargar_e_dec_cat')
+                  break;
+                case "e_dec_planta.php":
+                  sendToDataBase(dataFull, 'cargar_e_dec_planta')
+                  break;
+                case "e_estud.php":
+                  sendToDataBase(dataFull, 'cargar_e_estud')
+                  break;
+              }
             };
             reader.readAsBinaryString(fileUpload.files[0]);
           } else {
@@ -117,7 +127,6 @@
               var workbook = XLSX.read(data, {
                   type: 'binary'
               });
-
               //Fetch the name of First Sheet.
               var firstSheet = workbook.SheetNames[0];
 
@@ -125,15 +134,14 @@
               var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
         return(excelRows)
           };
-    function sendToDataBase(data){
+    function sendToDataBase(data, action){
       var jsonData = JSON.stringify(data)
-      var dato1 = "Valor 1"
-      //start_load()
+      var url_ajax = 'ajax.php?action='+action
       $.ajax({
-        url:'ajax.php?action=cargar_ae_doc_cat',
+        url: url_ajax,
         method: 'POST',
         type: 'POST',
-        data:{datos : dato1},
+        data:{datos : jsonData},
         success:function(resp){
           console.log(resp)
           if(resp == 1){
@@ -148,8 +156,15 @@
                    })
             
           }else{
-            $('#msg').html('<div class="alert alert-danger">Usuario ya existe</div>')
-            //end_load()
+            Swal.fire({
+                       type:'error',
+                       title:'¡Se ha producido un error al realizar la petición! Puede que algunos datos no se hayan cargado correctamente.',
+                       confirmButtonColor:'#3085d6',
+                   }).then((result) => {
+                    setTimeout(function(){
+                                  location.reload()
+                                },1500)
+                   })
           }
         }
       })
