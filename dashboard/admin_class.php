@@ -25,17 +25,12 @@ Class Action {
 			$save = $this->db->prepare("TRUNCATE TABLE ae_docente_catedra");
 			$save->execute();
 		}
-		//si es autoev. de docentes sin cátedra (Tipo 1)
+		//si es autoev. de docentes sin cátedra (Tipo 2)
 		if($tipo === 2){
 			$save = $this->db->prepare("TRUNCATE TABLE ae_docente_sin_catedra");
 			$save->execute();
 		}
-		//si es evaluación de decanos a docentes cátedra (Tipo 1)
-		if($tipo === 3){
-			$save = $this->db->prepare("TRUNCATE TABLE e_decano_catedra");
-			$save->execute();
-		}
-		//si es evaluación de decanos a docentes cátedra (Tipo 1)
+		//si es evaluación de decanos a docentes cátedra (Tipo 3)
 		if($tipo === 3){
 			$save = $this->db->prepare("TRUNCATE TABLE e_decano_catedra");
 			$save->execute();
@@ -60,60 +55,51 @@ Class Action {
         {
 			try{
 				//campos exactamente iguales para todos los tipos
+				$ID_ENCUESTA_QUSUARIO = (isset($item['ID ENCUESTA QUSUARIO'])) ? $item['ID ENCUESTA QUSUARIO'] : '';
+				$DOCUMENTO_DOCENTE = (isset($item['DOCUMENTO DOCENTE'])) ? $item['DOCUMENTO DOCENTE'] : '';
+				$NOMBRE_DOCENTE = (isset($item['NOMBRE DOCENTE'])) ? $item['NOMBRE DOCENTE'] : '';
+				$CARGO_DOCENTE = (isset($item['CARGO DOCENTE'])) ? $item['CARGO DOCENTE'] : '';
+				$FECHA_DILIGENCIAMIENTO = (isset($item['FECHA DILIGENCIAMIENTO'])) ? $item['FECHA DILIGENCIAMIENTO'] : '';
 				$FACULTAD = (isset($item['FACULTAD'])) ? $item['FACULTAD'] : '';
 				$PROGRAMA = (isset($item['PROGRAMA'])) ? $item['PROGRAMA'] : '';
 				$ENCUESTA = (isset($item['ENCUESTA'])) ? $item['ENCUESTA'] : '';
 
 				//campos que se comparten pero con diferente nomenclatura
-				if($tipo == 1){
-					$ID_ENCUESTA_QUSUARIO = (isset($item['ID_ENCUESTA_QUSUARIO'])) ? $item['ID_ENCUESTA_QUSUARIO'] : '';
-					$DOCUMENTO_DOCENTE = (isset($item['DOCUMENTO_DOCENTE'])) ? $item['DOCUMENTO_DOCENTE'] : '';
-					$NOMBRE_DOCENTE = (isset($item['NOMBRE_DOCENTE'])) ? $item['NOMBRE_DOCENTE'] : '';
-					$CARGO_DOCENTE = (isset($item['CARGO_DOCENTE'])) ? $item['CARGO_DOCENTE'] : '';
-					$FECHA_DILIGENCIAMIENTO = (isset($item['FECHA_DILIGENCIAMIENTO'])) ? $item['FECHA_DILIGENCIAMIENTO'] : '';
-				}
-				else{
-					$ID_ENCUESTA_QUSUARIO = (isset($item['ID ENCUESTA QUSUARIO'])) ? $item['ID ENCUESTA QUSUARIO'] : '';
-					$DOCUMENTO_DOCENTE = (isset($item['DOCUMENTO DOCENTE'])) ? $item['DOCUMENTO DOCENTE'] : '';
-					$NOMBRE_DOCENTE = (isset($item['NOMBRE DOCENTE'])) ? $item['NOMBRE DOCENTE'] : '';
-					$CARGO_DOCENTE = (isset($item['CARGO DOCENTE'])) ? $item['CARGO DOCENTE'] : '';
-					$FECHA_DILIGENCIAMIENTO = (isset($item['FECHA DILIGENCIAMIENTO'])) ? $item['FECHA DILIGENCIAMIENTO'] : '';
-				}
+
 				//se declaran las variables tipo 1
 				if($tipo === 1){
-					$ID_ENCUESTA_QUSUARIO = (isset($item['ID_ENCUESTA_QUSUARIO'])) ? $item['ID_ENCUESTA_QUSUARIO'] : '';
-					$ID_DOCENTE = (isset($item['ID_DOCENTE'])) ? $item['ID_DOCENTE'] : '';
-					$PREGUNTA1 = (isset($item['Presento_los_objetivos_de_la_asignatura_de_forma_clara'])) ? $item['Presento_los_objetivos_de_la_asignatura_de_forma_clara'] : '';
-					$PREGUNTA2 = (isset($item['Explico_de_manera_clara_los_contenidos_de_la_asignatura.'])) ? $item['Explico_de_manera_clara_los_contenidos_de_la_asignatura.'] : '';
-					$PREGUNTA3 = (isset($item['Relaciono_los_contenidos_de_la_asignatura_con_los_contenidos_de_otras.'])) ? $item['Relaciono_los_contenidos_de_la_asignatura_con_los_contenidos_de_otras.'] : '';
-					$PREGUNTA4 = (isset($item['Resuelvo_las_dudas_relacionadas_con_los_contenidos_de_la_asignatura.'])) ? $item['Resuelvo_las_dudas_relacionadas_con_los_contenidos_de_la_asignatura.'] : '';
-					$PREGUNTA5 = (isset($item['Propongo_ejemplos_o_ejercicios_que_vinculan_la_asignatura_con_los_perfiles_ocupacionales_del_Programa.'])) ? $item['Propongo_ejemplos_o_ejercicios_que_vinculan_la_asignatura_con_los_perfiles_ocupacionales_del_Programa.'] : '';
-					$PREGUNTA6 = (isset($item['Explica_la_utilidad_de_los_contenidos_teóricos_y_prácticos_para_la_actividad_profesional.'])) ? $item['Explica_la_utilidad_de_los_contenidos_teóricos_y_prácticos_para_la_actividad_profesional.'] : '';
-					$PREGUNTA7 = (isset($item['a._Cumplo_con_lo_establecido_en_el_Acuerdo_Pedagógico_al_inicio_de_la_asignatura.'])) ? $item['a._Cumplo_con_lo_establecido_en_el_Acuerdo_Pedagógico_al_inicio_de_la_asignatura.'] : '';
-					$PREGUNTA8 = (isset($item['b._Durante_la_asignatura_establezco_estrategias_adecuadas_necesarias_para_lograr_el_aprendizaje_deseado.'])) ? $item['b._Durante_la_asignatura_establezco_estrategias_adecuadas_necesarias_para_lograr_el_aprendizaje_deseado.'] : '';
-					$PREGUNTA9 = (isset($item['c._El_Plan_de_Curso_presentado_al_principio_de_la_asignatura_lo_desarrollé_totalmente.'])) ? $item['c._El_Plan_de_Curso_presentado_al_principio_de_la_asignatura_lo_desarrollé_totalmente.'] : '';
-					$PREGUNTA10 = (isset($item['d._Inicio_y_termino_la_clase_en_los_tiempos_establecidos_para_la_misma.'])) ? $item['d._Inicio_y_termino_la_clase_en_los_tiempos_establecidos_para_la_misma.'] : '';
-					$PREGUNTA11 = (isset($item['a._Incluyo_experiencias_de_aprendizaje_en_lugares_diferentes_al_aula_(talleres,_laboratorios,_empresa,_comunidad,_biblioteca,_etc.).'])) ? $item['a._Incluyo_experiencias_de_aprendizaje_en_lugares_diferentes_al_aula_(talleres,_laboratorios,_empresa,_comunidad,_biblioteca,_etc.).'] : '';
-					$PREGUNTA12 = (isset($item['b._Utilizo_para_el_aprendizaje_las_herramientas_de_interacción_de_las_Tecnologías_de_la_Información_y_las_Comunicaciones_(correo_electrónico,_chats,_Moodle,_plataformas_electrónicas,_etc.).'])) ? $item['b._Utilizo_para_el_aprendizaje_las_herramientas_de_interacción_de_las_Tecnologías_de_la_Información_y_las_Comunicaciones_(correo_electrónico,_chats,_Moodle,_plataformas_electrónicas,_etc.).'] : '';
-					$PREGUNTA13 = (isset($item['c._Promuevo_el_uso_de_diversas_herramientas,_particularmente_las_digitales,_para_gestionar_(recabar,_procesar,_evaluar_y_usar)_información.'])) ? $item['c._Promuevo_el_uso_de_diversas_herramientas,_particularmente_las_digitales,_para_gestionar_(recabar,_procesar,_evaluar_y_usar)_información.'] : '';
-					$PREGUNTA14 = (isset($item['d._Promuevo_el_uso_seguro,_legal_y_ético_de_la_información_digital.'])) ? $item['d._Promuevo_el_uso_seguro,_legal_y_ético_de_la_información_digital.'] : '';
-					$PREGUNTA15 = (isset($item['e._Relaciono_los_contenidos_de_la_asignatura_con_la_industria_y_la_sociedad_a_nivel_local,_regional,_nacional_e_internacional.'])) ? $item['e._Relaciono_los_contenidos_de_la_asignatura_con_la_industria_y_la_sociedad_a_nivel_local,_regional,_nacional_e_internacional.'] : '';
-					$PREGUNTA16 = (isset($item['a._Muestro_compromiso_y_entusiasmo_en_el_desarrollo_de_la_clase.'])) ? $item['a._Muestro_compromiso_y_entusiasmo_en_el_desarrollo_de_la_clase.'] : '';
-					$PREGUNTA17 = (isset($item['b._Tomo_en_cuenta_las_necesidades,_intereses_y_expectativas_del_grupo.'])) ? $item['b._Tomo_en_cuenta_las_necesidades,_intereses_y_expectativas_del_grupo.'] : '';
-					$PREGUNTA18 = (isset($item['c._Propicio_el_desarrollo_de_un_ambiente_de_respeto_y_confianza.'])) ? $item['c._Propicio_el_desarrollo_de_un_ambiente_de_respeto_y_confianza.'] : '';
-					$PREGUNTA19 = (isset($item['d._Propicio_la_curiosidad,_el_espíritu_investigativo_y_el_deseo_de_aprender.'])) ? $item['d._Propicio_la_curiosidad,_el_espíritu_investigativo_y_el_deseo_de_aprender.'] : '';
-					$PREGUNTA20 = (isset($item['e._Reconozco_los_éxitos_y_logros_de_los_estudiantes_en_las_actividades_de_aprendizaje.'])) ? $item['e._Reconozco_los_éxitos_y_logros_de_los_estudiantes_en_las_actividades_de_aprendizaje.'] : '';
-					$PREGUNTA21 = (isset($item['a._Proporciono_información_clara_para_realizar_adecuadamente_las_actividades_de_evaluación.'])) ? $item['a._Proporciono_información_clara_para_realizar_adecuadamente_las_actividades_de_evaluación.'] : '';
-					$PREGUNTA22 = (isset($item['b._Tomo_en_cuenta_las_actividades_realizadas_y_los_productos_como_evidencias_para_la_calificación_y_aprobación_de_la_asignatura.'])) ? $item['b._Tomo_en_cuenta_las_actividades_realizadas_y_los_productos_como_evidencias_para_la_calificación_y_aprobación_de_la_asignatura.'] : '';
-					$PREGUNTA23 = (isset($item['c._Doy_a_conocer_las_calificaciones_en_el_plazo_establecido.'])) ? $item['c._Doy_a_conocer_las_calificaciones_en_el_plazo_establecido.'] : '';
-					$PREGUNTA24 = (isset($item['d._Doy_oportunidad_de_mejorar_los_resultados_de_la_evaluación_del_aprendizaje.'])) ? $item['d._Doy_oportunidad_de_mejorar_los_resultados_de_la_evaluación_del_aprendizaje.'] : '';
-					$PREGUNTA25 = (isset($item['e._Otorgo_calificaciones_imparciales.'])) ? $item['e._Otorgo_calificaciones_imparciales.'] : '';
-					$PREGUNTA26 = (isset($item['f._Hago_realimentación_de_las_evaluaciones_y_trabajos_con_fines_de_mejoramiento'])) ? $item['f._Hago_realimentación_de_las_evaluaciones_y_trabajos_con_fines_de_mejoramiento'] : '';
-					$PREGUNTA27 = (isset($item['a._Desarrollo_la_clase_en_un_clima_de_apertura_y_entendimiento.'])) ? $item['a._Desarrollo_la_clase_en_un_clima_de_apertura_y_entendimiento.'] : '';
-					$PREGUNTA28 = (isset($item['b._Escucho_y_tomo_en_cuenta_las_opiniones_de_los_estudiantes.'])) ? $item['b._Escucho_y_tomo_en_cuenta_las_opiniones_de_los_estudiantes.'] : '';
-					$PREGUNTA29 = (isset($item['c._Muestro_congruencia_entre_lo_que_digo_y_lo_que_hago.'])) ? $item['c._Muestro_congruencia_entre_lo_que_digo_y_lo_que_hago.'] : '';
-					$PREGUNTA30 = (isset($item['d._Soy_accesible_y_estoy_dispuesto_a_brindarle_ayuda_académica_al_estudiante.'])) ? $item['d._Soy_accesible_y_estoy_dispuesto_a_brindarle_ayuda_académica_al_estudiante.'] : '';
-					$PREGUNTA31 = (isset($item['e._Trato_los_estudiantes_con_respeto'])) ? $item['e._Trato_los_estudiantes_con_respeto'] : '';
+					$ID_DOCENTE = (isset($item['ID DOCENTE'])) ? $item['ID DOCENTE'] : '';
+					$PREGUNTA1 = (isset($item['Presento los objetivos de la asignatura de forma clara'])) ? $item['Presento los objetivos de la asignatura de forma clara'] : '';
+					$PREGUNTA2 = (isset($item['Explico de manera clara los contenidos de la asignatura.'])) ? $item['Explico de manera clara los contenidos de la asignatura.'] : '';
+					$PREGUNTA3 = (isset($item['Relaciono los contenidos de la asignatura con los contenidos de otras.'])) ? $item['Relaciono los contenidos de la asignatura con los contenidos de otras.'] : '';
+					$PREGUNTA4 = (isset($item['Resuelvo las dudas relacionadas con los contenidos de la asignatura.'])) ? $item['Resuelvo las dudas relacionadas con los contenidos de la asignatura.'] : '';
+					$PREGUNTA5 = (isset($item['Propongo ejemplos o ejercicios que vinculan la asignatura con los perfiles ocupacionales del Programa.'])) ? $item['Propongo ejemplos o ejercicios que vinculan la asignatura con los perfiles ocupacionales del Programa.'] : '';
+					$PREGUNTA6 = (isset($item['Explica la utilidad de los contenidos teóricos y prácticos para la actividad profesional.'])) ? $item['Explica la utilidad de los contenidos teóricos y prácticos para la actividad profesional.'] : '';
+					$PREGUNTA7 = (isset($item['a. Cumplo con lo establecido en el Acuerdo Pedagógico al inicio de la asignatura.'])) ? $item['a. Cumplo con lo establecido en el Acuerdo Pedagógico al inicio de la asignatura.'] : '';
+					$PREGUNTA8 = (isset($item['b. Durante la asignatura establezco estrategias adecuadas necesarias para lograr el aprendizaje deseado.'])) ? $item['b. Durante la asignatura establezco estrategias adecuadas necesarias para lograr el aprendizaje deseado.'] : '';
+					$PREGUNTA9 = (isset($item['c. El Plan de Curso presentado al principio de la asignatura lo desarrollé totalmente.'])) ? $item['c. El Plan de Curso presentado al principio de la asignatura lo desarrollé totalmente.'] : '';
+					$PREGUNTA10 = (isset($item['d. Inicio y termino la clase en los tiempos establecidos para la misma.'])) ? $item['d. Inicio y termino la clase en los tiempos establecidos para la misma.'] : '';
+					$PREGUNTA11 = (isset($item['a. Incluyo experiencias de aprendizaje en lugares diferentes al aula (talleres, laboratorios, empresa, comunidad, biblioteca, etc.).'])) ? $item['a. Incluyo experiencias de aprendizaje en lugares diferentes al aula (talleres, laboratorios, empresa, comunidad, biblioteca, etc.).'] : '';
+					$PREGUNTA12 = (isset($item['b. Utilizo para el aprendizaje las herramientas de interacción de las Tecnologías de la Información y las Comunicaciones (correo electrónico, chats, Moodle, plataformas electrónicas, etc.).'])) ? $item['b. Utilizo para el aprendizaje las herramientas de interacción de las Tecnologías de la Información y las Comunicaciones (correo electrónico, chats, Moodle, plataformas electrónicas, etc.).'] : '';
+					$PREGUNTA13 = (isset($item['c. Promuevo el uso de diversas herramientas, particularmente las digitales, para gestionar (recabar, procesar, evaluar y usar) información.'])) ? $item['c. Promuevo el uso de diversas herramientas, particularmente las digitales, para gestionar (recabar, procesar, evaluar y usar) información.'] : '';
+					$PREGUNTA14 = (isset($item['d. Promuevo el uso seguro, legal y ético de la información digital.'])) ? $item['d. Promuevo el uso seguro, legal y ético de la información digital.'] : '';
+					$PREGUNTA15 = (isset($item['e. Relaciono los contenidos de la asignatura con la industria y la sociedad a nivel local, regional, nacional e internacional.'])) ? $item['e. Relaciono los contenidos de la asignatura con la industria y la sociedad a nivel local, regional, nacional e internacional.'] : '';
+					$PREGUNTA16 = (isset($item['a. Muestro compromiso y entusiasmo en el desarrollo de la clase.'])) ? $item['a. Muestro compromiso y entusiasmo en el desarrollo de la clase.'] : '';
+					$PREGUNTA17 = (isset($item['b. Tomo en cuenta las necesidades, intereses y expectativas del grupo.'])) ? $item['b. Tomo en cuenta las necesidades, intereses y expectativas del grupo.'] : '';
+					$PREGUNTA18 = (isset($item['c. Propicio el desarrollo de un ambiente de respeto y confianza.'])) ? $item['c. Propicio el desarrollo de un ambiente de respeto y confianza.'] : '';
+					$PREGUNTA19 = (isset($item['d. Propicio la curiosidad, el espíritu investigativo y el deseo de aprender.'])) ? $item['d. Propicio la curiosidad, el espíritu investigativo y el deseo de aprender.'] : '';
+					$PREGUNTA20 = (isset($item['e. Reconozco los éxitos y logros de los estudiantes en las actividades de aprendizaje.'])) ? $item['e. Reconozco los éxitos y logros de los estudiantes en las actividades de aprendizaje.'] : '';
+					$PREGUNTA21 = (isset($item['a. Proporciono información clara para realizar adecuadamente las actividades de evaluación.'])) ? $item['a. Proporciono información clara para realizar adecuadamente las actividades de evaluación.'] : '';
+					$PREGUNTA22 = (isset($item['b. Tomo en cuenta las actividades realizadas y los productos como evidencias para la calificación y aprobación de la asignatura.'])) ? $item['b. Tomo en cuenta las actividades realizadas y los productos como evidencias para la calificación y aprobación de la asignatura.'] : '';
+					$PREGUNTA23 = (isset($item['c. Doy a conocer las calificaciones en el plazo establecido.'])) ? $item['c. Doy a conocer las calificaciones en el plazo establecido.'] : '';
+					$PREGUNTA24 = (isset($item['d. Doy oportunidad de mejorar los resultados de la evaluación del aprendizaje.'])) ? $item['d. Doy oportunidad de mejorar los resultados de la evaluación del aprendizaje.'] : '';
+					$PREGUNTA25 = (isset($item['e. Otorgo calificaciones imparciales.'])) ? $item['e. Otorgo calificaciones imparciales.'] : '';
+					$PREGUNTA26 = (isset($item['f. Hago realimentación de las evaluaciones y trabajos con fines de mejoramiento'])) ? $item['f. Hago realimentación de las evaluaciones y trabajos con fines de mejoramiento'] : '';
+					$PREGUNTA27 = (isset($item['a. Desarrollo la clase en un clima de apertura y entendimiento.'])) ? $item['a. Desarrollo la clase en un clima de apertura y entendimiento.'] : '';
+					$PREGUNTA28 = (isset($item['b. Escucho y tomo en cuenta las opiniones de los estudiantes.'])) ? $item['b. Escucho y tomo en cuenta las opiniones de los estudiantes.'] : '';
+					$PREGUNTA29 = (isset($item['c. Muestro congruencia entre lo que digo y lo que hago.'])) ? $item['c. Muestro congruencia entre lo que digo y lo que hago.'] : '';
+					$PREGUNTA30 = (isset($item['d. Soy accesible y estoy dispuesto a brindarle ayuda académica al estudiante.'])) ? $item['d. Soy accesible y estoy dispuesto a brindarle ayuda académica al estudiante.'] : '';
+					$PREGUNTA31 = (isset($item['e. Trato los estudiantes con respeto'])) ? $item['e. Trato los estudiantes con respeto'] : '';
 					$save = $this->db->prepare("INSERT INTO ae_docente_catedra (ID_ENCUESTA_QUSUARIO, ID_DOCENTE, FACULTAD, PROGRAMA, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8, PREGUNTA9, PREGUNTA10, PREGUNTA11, PREGUNTA12, PREGUNTA13, PREGUNTA14, PREGUNTA15, PREGUNTA16, PREGUNTA17, PREGUNTA18, PREGUNTA19, PREGUNTA20, PREGUNTA21, PREGUNTA22, PREGUNTA23, PREGUNTA24, PREGUNTA25, PREGUNTA26, PREGUNTA27, PREGUNTA28, PREGUNTA29, PREGUNTA30, PREGUNTA31) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 				//se declaran variables tipo 2

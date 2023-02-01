@@ -8,22 +8,26 @@
     
  <?php
 include_once '../bd/conexion.php';
+
 $objeto = new Conexion();
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
-
 $consulta = "SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM ae_docente_catedra
-            UNION DISTINCT
+            UNION 
             SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM ae_docente_sin_catedra
-            UNION DISTINCT
+            UNION 
             SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_decano_catedra
-            UNION DISTINCT
+            UNION 
             SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_decano_planta
-            UNION DISTINCT
+            UNION 
             SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_estud";
 $resultado = $conexion->prepare($consulta);
 $resultado->execute();
 $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
 ?>
 
 
