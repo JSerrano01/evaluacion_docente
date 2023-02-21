@@ -1,10 +1,12 @@
 <?php
  class Conexion{
      public static function Conectar(){
-         define('servidor','10.3.1.110');
+         //define('servidor','10.3.1.110');
+         define('servidor','localhost');
          define('nombre_bd','evaluacion_docente');
          define('usuario','root');
-         define('password','WNeqRzh!nHrfA9d**K!^');         
+         //define('password','WNeqRzh!nHrfA9d**K!^');   
+         define('password','');      
          $opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4');
          
          try{

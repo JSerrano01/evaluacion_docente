@@ -3,57 +3,59 @@ session_start();
 ini_set('display_errors', 1);
 $log_file = "./my-errors.log";
 // setting error logging to be active
-ini_set("log_errors", TRUE); 
+ini_set("log_errors", TRUE);
 // setting the logging file in php.ini
 ini_set('error_log', $log_file);
 
-Class Action {
+class Action
+{
 	private $db;
 
-	public function __construct() {
+	public function __construct()
+	{
 		ob_start();
-	include '../bd/conexion.php';
-	$objeto = new Conexion();
-	$conexion = $objeto->Conectar();
-    $this->db = $conexion;
+		include '../bd/conexion.php';
+		$objeto = new Conexion();
+		$conexion = $objeto->Conectar();
+		$this->db = $conexion;
 	}
 
-	function cargar_data($tipo){
+	function cargar_data($tipo)
+	{
 		//se realiza un Truncate para eliminar la información previa
 		//si es autoev. de docentes de cátedra (Tipo 1)
-		if($tipo === 1){
+		if ($tipo === 1) {
 			$save = $this->db->prepare("TRUNCATE TABLE ae_docente_catedra");
 			$save->execute();
 		}
 		//si es autoev. de docentes sin cátedra (Tipo 2)
-		if($tipo === 2){
+		if ($tipo === 2) {
 			$save = $this->db->prepare("TRUNCATE TABLE ae_docente_sin_catedra");
 			$save->execute();
 		}
 		//si es evaluación de decanos a docentes cátedra (Tipo 3)
-		if($tipo === 3){
+		if ($tipo === 3) {
 			$save = $this->db->prepare("TRUNCATE TABLE e_decano_catedra");
 			$save->execute();
 		}
 		//si es evaluación de decanos a docentes planta (Tipo 4)
-		if($tipo === 4){
+		if ($tipo === 4) {
 			$save = $this->db->prepare("TRUNCATE TABLE e_decano_planta");
 			$save->execute();
 		}
 		//si es evaluación de decanos a docentes planta (Tipo 4)
-		if($tipo === 4){
+		if ($tipo === 4) {
 			$save = $this->db->prepare("TRUNCATE TABLE e_decano_planta");
 			$save->execute();
 		}
 		//si es evaluación de estudiantes a docentes (Tipo 5)
-		if($tipo === 5){
+		if ($tipo === 5) {
 			$save = $this->db->prepare("TRUNCATE TABLE e_estud");
 			$save->execute();
 		}
-		$array=json_decode($_POST['datos'], true);
-		foreach($array as $item)
-        {
-			try{
+		$array = json_decode($_POST['datos'], true);
+		foreach ($array as $item) {
+			try {
 				//campos exactamente iguales para todos los tipos
 				$ID_ENCUESTA_QUSUARIO = (isset($item['ID ENCUESTA QUSUARIO'])) ? $item['ID ENCUESTA QUSUARIO'] : '';
 				$DOCUMENTO_DOCENTE = (isset($item['DOCUMENTO DOCENTE'])) ? $item['DOCUMENTO DOCENTE'] : '';
@@ -67,7 +69,7 @@ Class Action {
 				//campos que se comparten pero con diferente nomenclatura
 
 				//se declaran las variables tipo 1
-				if($tipo === 1){
+				if ($tipo === 1) {
 					$ID_DOCENTE = (isset($item['ID DOCENTE'])) ? $item['ID DOCENTE'] : '';
 					$PREGUNTA1 = (isset($item['Presento los objetivos de la asignatura de forma clara'])) ? $item['Presento los objetivos de la asignatura de forma clara'] : '';
 					$PREGUNTA2 = (isset($item['Explico de manera clara los contenidos de la asignatura.'])) ? $item['Explico de manera clara los contenidos de la asignatura.'] : '';
@@ -103,7 +105,7 @@ Class Action {
 					$save = $this->db->prepare("INSERT INTO ae_docente_catedra (ID_ENCUESTA_QUSUARIO, ID_DOCENTE, FACULTAD, PROGRAMA, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8, PREGUNTA9, PREGUNTA10, PREGUNTA11, PREGUNTA12, PREGUNTA13, PREGUNTA14, PREGUNTA15, PREGUNTA16, PREGUNTA17, PREGUNTA18, PREGUNTA19, PREGUNTA20, PREGUNTA21, PREGUNTA22, PREGUNTA23, PREGUNTA24, PREGUNTA25, PREGUNTA26, PREGUNTA27, PREGUNTA28, PREGUNTA29, PREGUNTA30, PREGUNTA31) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 				//se declaran variables tipo 2
-				if($tipo === 2){
+				if ($tipo === 2) {
 					$ID_DOCENTE = (isset($item['ID DOCENTE'])) ? $item['ID DOCENTE'] : '';
 					$PREGUNTA1 = (isset($item['1.Asisto a las reuniones y aporto a la dinámica académica del grupo.'])) ? $item['1.Asisto a las reuniones y aporto a la dinámica académica del grupo.'] : '';
 					$PREGUNTA2 = (isset($item['2. Aporto al mejoramiento del contenido curricular del programa del curso.'])) ? $item['2. Aporto al mejoramiento del contenido curricular del programa del curso.'] : '';
@@ -116,14 +118,14 @@ Class Action {
 					$save = $this->db->prepare("INSERT INTO ae_docente_sin_catedra (ID_ENCUESTA_QUSUARIO, ID_DOCENTE, FACULTAD, PROGRAMA, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 				//se declaran las variables comunes entre tipo 3 y 4
-				if($tipo == 3 || $tipo == 4){
+				if ($tipo == 3 || $tipo == 4) {
 					$ID_DOCENTE = (isset($item['ID DOCENTE'])) ? $item['ID DOCENTE'] : '';
 					$DOCUMENTO_EVALUADOR = (isset($item['DOCUMENTO EVALUADOR'])) ? $item['DOCUMENTO EVALUADOR'] : '';
 					$NOMBRE_EVALUADOR = (isset($item['NOMBRE EVALUADOR'])) ? $item['NOMBRE EVALUADOR'] : '';
 				}
 
 				//se declaran las variables que sólo tienen el tipo 3
-				if($tipo == 3){
+				if ($tipo == 3) {
 					$PREGUNTA1 = (isset($item['1. Asiste a las reuniones y aporta a la dinámica académica del grupo.'])) ? $item['1. Asiste a las reuniones y aporta a la dinámica académica del grupo.'] : '';
 					$PREGUNTA2 = (isset($item['2. Aporta al mejoramiento del contenido curricular del programa del curso.'])) ? $item['2. Aporta al mejoramiento del contenido curricular del programa del curso.'] : '';
 					$PREGUNTA3 = (isset($item['3. Da a conocer oportunamente a los estudiantes los contenidos, la metodología y la evaluación del curso.'])) ? $item['3. Da a conocer oportunamente a los estudiantes los contenidos, la metodología y la evaluación del curso.'] : '';
@@ -135,7 +137,7 @@ Class Action {
 					$save = $this->db->prepare("INSERT INTO e_decano_catedra (ID_ENCUESTA_QUSUARIO, ID_DOCENTE, FACULTAD, PROGRAMA, DOCUMENTO_EVALUADOR, NOMBRE_EVALUADOR, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 				//se declaran las variables que sólo tienen el tipo 4
-				if($tipo == 4){
+				if ($tipo == 4) {
 					$PREGUNTA1 = (isset($item['Pertenece usted al proceso de Docencia?'])) ? $item['Pertenece usted al proceso de Docencia?'] : '';
 					$PREGUNTA2 = (isset($item['1.1. Asigne el PESO (%) respectivo de este Proceso'])) ? $item['1.1. Asigne el PESO (%) respectivo de este Proceso'] : '';
 					$PREGUNTA3 = (isset($item['1.2. Asigne el LOGRO que alcanzo el Docente en este proceso'])) ? $item['1.2. Asigne el LOGRO que alcanzo el Docente en este proceso'] : '';
@@ -157,7 +159,7 @@ Class Action {
 					$PREGUNTA19 = (isset($item['6.4. OBSERVACIONES:'])) ? $item['6.4. OBSERVACIONES:'] : '';
 					$save = $this->db->prepare("INSERT INTO e_decano_planta (ID_ENCUESTA_QUSUARIO, ID_DOCENTE, FACULTAD, PROGRAMA, DOCUMENTO_EVALUADOR, NOMBRE_EVALUADOR, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8, PREGUNTA9, PREGUNTA10, PREGUNTA11, PREGUNTA12, PREGUNTA13, PREGUNTA14, PREGUNTA15, PREGUNTA16, PREGUNTA17, PREGUNTA18, PREGUNTA19) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
-				if($tipo == 5){
+				if ($tipo == 5) {
 					$ID_GRUPO_DOCENTE = (isset($item['ID GRUPO DOCENTE'])) ? $item['ID GRUPO DOCENTE'] : '';
 					$GRUPO = (isset($item['GRUPO'])) ? $item['GRUPO'] : '';
 					$ID_OPERARIO_U = (isset($item['ID OPERARIO U'])) ? $item['ID OPERARIO U'] : '';
@@ -204,22 +206,20 @@ Class Action {
 					$save = $this->db->prepare("INSERT INTO e_estud (ID_ENCUESTA_QUSUARIO, ID_GRUPO_DOCENTE, FACULTAD, PROGRAMA, GRUPO, DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, CARGO_DOCENTE, ENCUESTA, ID_OPERARIO_U, FECHA_DILIGENCIAMIENTO, PREGUNTA1, PREGUNTA2, PREGUNTA3, PREGUNTA4, PREGUNTA5, PREGUNTA6, PREGUNTA7, PREGUNTA8, PREGUNTA9, PREGUNTA10, PREGUNTA11, PREGUNTA12, PREGUNTA13, PREGUNTA14, PREGUNTA15, PREGUNTA16, PREGUNTA17, PREGUNTA18, PREGUNTA19, PREGUNTA20, PREGUNTA21, PREGUNTA22, PREGUNTA23, PREGUNTA24, PREGUNTA25, PREGUNTA26, PREGUNTA27, PREGUNTA28, PREGUNTA29, PREGUNTA30, PREGUNTA31, PREGUNTA32, PREGUNTA33, PREGUNTA34, PREGUNTA35, PREGUNTA36, PREGUNTA37, PREGUNTA38, PREGUNTA39, PREGUNTA40) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				}
 				$save->bindParam(1, $ID_ENCUESTA_QUSUARIO);
-				if($tipo != 5){
+				if ($tipo != 5) {
 					$save->bindParam(2, $ID_DOCENTE);
-				}
-				else{
+				} else {
 					$save->bindParam(2, $ID_GRUPO_DOCENTE);
 				}
 				$save->bindParam(3, $FACULTAD);
 				$save->bindParam(4, $PROGRAMA);
-				if($tipo === 1 || $tipo === 2){
+				if ($tipo === 1 || $tipo === 2) {
 					$save->bindParam(5, $DOCUMENTO_DOCENTE);
 					$save->bindParam(6, $NOMBRE_DOCENTE);
 					$save->bindParam(7, $CARGO_DOCENTE);
 					$save->bindParam(8, $ENCUESTA);
 					$save->bindParam(9, $FECHA_DILIGENCIAMIENTO);
-				}
-				else if($tipo === 3 || $tipo === 4){
+				} else if ($tipo === 3 || $tipo === 4) {
 					$save->bindParam(5, $DOCUMENTO_EVALUADOR);
 					$save->bindParam(6, $NOMBRE_EVALUADOR);
 					$save->bindParam(7, $DOCUMENTO_DOCENTE);
@@ -227,8 +227,7 @@ Class Action {
 					$save->bindParam(9, $CARGO_DOCENTE);
 					$save->bindParam(10, $ENCUESTA);
 					$save->bindParam(11, $FECHA_DILIGENCIAMIENTO);
-				}
-				else{
+				} else {
 					$save->bindParam(5, $GRUPO);
 					$save->bindParam(6, $DOCUMENTO_DOCENTE);
 					$save->bindParam(7, $NOMBRE_DOCENTE);
@@ -237,7 +236,7 @@ Class Action {
 					$save->bindParam(10, $ID_OPERARIO_U);
 					$save->bindParam(11, $FECHA_DILIGENCIAMIENTO);
 				}
-				if($tipo === 1){
+				if ($tipo === 1) {
 					$save->bindParam(10, $PREGUNTA1);
 					$save->bindParam(11, $PREGUNTA2);
 					$save->bindParam(12, $PREGUNTA3);
@@ -270,7 +269,7 @@ Class Action {
 					$save->bindParam(39, $PREGUNTA30);
 					$save->bindParam(40, $PREGUNTA31);
 				}
-				if($tipo === 2){
+				if ($tipo === 2) {
 					$save->bindParam(10, $PREGUNTA1);
 					$save->bindParam(11, $PREGUNTA2);
 					$save->bindParam(12, $PREGUNTA3);
@@ -280,7 +279,7 @@ Class Action {
 					$save->bindParam(16, $PREGUNTA7);
 					$save->bindParam(17, $PREGUNTA8);
 				}
-				if($tipo === 3){
+				if ($tipo === 3) {
 					$save->bindParam(12, $PREGUNTA1);
 					$save->bindParam(13, $PREGUNTA2);
 					$save->bindParam(14, $PREGUNTA3);
@@ -290,7 +289,7 @@ Class Action {
 					$save->bindParam(18, $PREGUNTA7);
 					$save->bindParam(19, $PREGUNTA8);
 				}
-				if($tipo === 4){
+				if ($tipo === 4) {
 					$save->bindParam(12, $PREGUNTA1);
 					$save->bindParam(13, $PREGUNTA2);
 					$save->bindParam(14, $PREGUNTA3);
@@ -311,7 +310,7 @@ Class Action {
 					$save->bindParam(29, $PREGUNTA18);
 					$save->bindParam(30, $PREGUNTA19);
 				}
-				if($tipo === 5){
+				if ($tipo === 5) {
 					$save->bindParam(12, $PREGUNTA1);
 					$save->bindParam(13, $PREGUNTA2);
 					$save->bindParam(14, $PREGUNTA3);
@@ -354,12 +353,11 @@ Class Action {
 					$save->bindParam(51, $PREGUNTA40);
 				}
 				$save->execute();
-			}
-            catch (Exception $e) {
+			} catch (Exception $e) {
 				echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 				return 2;
 			}
-        }
+		}
 		return 1;
 	}
 }
