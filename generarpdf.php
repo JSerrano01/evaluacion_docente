@@ -15,17 +15,10 @@ $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 
 //se debe setear SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
-$query_eval_estudiantes = "SELECT GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, PREGUNTA1 from e_estud WHERE DOCUMENTO_DOCENTE = :documento";
+$query_eval_estudiantes = "SELECT * , GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA from e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
 $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
 $resultado_evalestud->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes = $resultado_evalestud->fetchAll(PDO::FETCH_ASSOC);
-
-$query_estud = "SELECT * from e_estud";
-$resultado_estud = $conexion->prepare($query_estud);
-$resultado_estud->execute();
-$resultado_estud->execute([':documento' => $data_estud[0]['DOCUMENTO_DOCENTE']]);
-$data_estud = $resultado_estud->fetchAll(PDO::FETCH_ASSOC);
-
 
 
 $pdf = new PDF();
@@ -169,11 +162,10 @@ $pdf->SetFont('Arial', '', '8');
 $pdf->SetWidths(array(20, 15, 21, 18, 25, 18, 18, 25, 18, 12));
 
 
-
-$pdf->Row($autoevaluacion_completa1);
-
 for ($i = 0; $i < count($data_estudiantes); $i++) {
-    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1'], $data_estudiantes[$i]['PREGUNTA1']));
+    
+    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'] , $data_estudiantes[$i]['PREGUNTA1'], $ambiente_est, $motivacion, $evaluacion, $comunicacion, $promedio_valores, $valor_base_porcentaje)) . "<br>";
+
 }
 
 
