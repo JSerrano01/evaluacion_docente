@@ -15,6 +15,8 @@ $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 
 //se debe setear SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
+
+
 $query_eval_estudiantes = "SELECT * , GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA from e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
 $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
 $resultado_evalestud->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
@@ -162,11 +164,37 @@ $pdf->SetFont('Arial', '', '8');
 $pdf->SetWidths(array(20, 15, 21, 18, 25, 18, 18, 25, 18, 12));
 
 
+/*
+
+//suma de segundo factor a evaluar - Gestión de la asignatura
+$gestion = $funcion->promedio_valores_preguntas_estudiantes($data_estudiantes[0], 7, 10, 'estud');
+//suma de segundo factor a evaluar - Ambiente y estrategias
+$ambiente = $funcion->promedio_valores_preguntas_estudiantes($data_estudiantes[0], 11, 15, 'estud');
+//suma de segundo factor a evaluar - Motivación
+$motivacion_est = $funcion->promedio_valores_preguntas_estudiantes($data_estudiantes[0], 16, 20, 'estud');
+//suma de segundo factor a evaluar - Evaluacion
+$evaluacion_est = $funcion->promedio_valores_preguntas_estudiantes($data_estudiantes[0], 21, 26, 'estud');
+//suma de segundo factor a evaluar - Comunicación
+$comunicacion_est = $funcion->promedio_valores_preguntas_estudiantes($data_estudiantes[0], 27, 31, 'estud');
+$valores = array($gestion, $ambiente, $motivacion_est, $evaluacion_est, $comunicacion_est);
+$promedio_valores_est = round(array_sum($valores_est) / count($valores_est), 2);
+$valor_base_porcentaje_est = $promedio_valores_est * 0.2;
+$evaluacion_completa_est = array($gestion, $ambiente, $motivacion_est, $evaluacion_est, $comunicacion_est, $promedio_valores_est, $valor_base_porcentaje_est);
+
+*/
+
 for ($i = 0; $i < count($data_estudiantes); $i++) {
+
+    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $gestion_asig, $ambiente_est, $motivacion, $evaluacion, $comunicacion, $promedio_valores, $valor_base_porcentaje)) . "<br>";
+    $pdf->Ln();
+    $pdf->Ln();
+
     
-    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'] , $data_estudiantes[$i]['PREGUNTA1'], $ambiente_est, $motivacion, $evaluacion, $comunicacion, $promedio_valores, $valor_base_porcentaje)) . "<br>";
 
 }
 
 
+
 $pdf->Output();
+
+?>

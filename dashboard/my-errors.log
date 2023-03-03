@@ -22,29 +22,29 @@
 [22-Dec-2022 19:29:50 Europe/Berlin] PHP Warning:  Undefined variable $conn in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 17
 [27-Dec-2022 15:58:09 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::bind_param() in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php:67
 Stack trace:
-#0 C:\xampp\htdocs\evaluacion_docente\dashboard\ajax.php(7): Action->cargar_ae_doc_cat()
+#0 C:\xampp\htdocs\evaluacion_docente\dashboard\.php(7): Action->cargar_ae_doc_cat()
 #1 {main}
   thrown in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [27-Dec-2022 16:08:43 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::bind_param() in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php:67
 Stack trace:
-#0 C:\xampp\htdocs\evaluacion_docente\dashboard\ajax.php(7): Action->cargar_ae_doc_cat()
+#0 C:\xampp\htdocs\evaluacion_docente\dashboard\.php(7): Action->cargar_ae_doc_cat()
 #1 {main}
   thrown in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [27-Dec-2022 16:24:26 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::bind_param() in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php:67
 Stack trace:
-#0 C:\xampp\htdocs\evaluacion_docente\dashboard\ajax.php(7): Action->cargar_ae_doc_cat()
+#0 C:\xampp\htdocs\evaluacion_docente\dashboard\.php(7): Action->cargar_ae_doc_cat()
 #1 {main}
   thrown in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [27-Dec-2022 17:03:48 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method PDOStatement::bind_param() in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php:67
 Stack trace:
-#0 C:\xampp\htdocs\evaluacion_docente\dashboard\ajax.php(7): Action->cargar_ae_doc_cat()
+#0 C:\xampp\htdocs\evaluacion_docente\dashboard\.php(7): Action->cargar_ae_doc_cat()
 #1 {main}
   thrown in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [27-Dec-2022 17:05:40 Europe/Berlin] PHP Warning:  Undefined variable $PREGUNT16 in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [27-Dec-2022 17:05:40 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: PDOStatement::bindParam() expects at most 5 arguments, 41 given in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php:67
 Stack trace:
 #0 C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php(67): PDOStatement->bindParam('iississssssssss...', '446476', '17679', 'Facultad de Adm...', 'Tecnolog\xC3\xADa en ...', '1039454699', 'MARIANA G\xC3\x93MEZ ...', 'Docente Catedra...', 'A.D-2022-01-CON...', '5/25/22 14:42', 'Totalmente de a...', 'Totalmente de a...', '', '', '', '', '', 'Totalmente de a...', 'De acuerdo', 'De acuerdo', 'Totalmente de a...', 'Ni de acuerdo n...', 'De acuerdo', 'Totalmente de a...', 'Totalmente de a...', NULL, 'De acuerdo', 'Totalmente de a...', 'Totalmente de a...', 'Totalmente de a...', 'De acuerdo', 'De acuerdo', 'De acuerdo', 'Totalmente de a...', 'Totalmente de a...', 'De acuerdo', 'Totalmente de a...', 'Totalmente de a...', 'Totalmente de a...', 'Totalmente de a...', 'Totalmente de a...')
-#1 C:\xampp\htdocs\evaluacion_docente\dashboard\ajax.php(7): Action->cargar_ae_doc_cat()
+#1 C:\xampp\htdocs\evaluacion_docente\dashboard\.php(7): Action->cargar_ae_doc_cat()
 #2 {main}
   thrown in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 67
 [28-Dec-2022 18:51:36 Europe/Berlin] PHP Warning:  Undefined array key "ID_ENCUESTA_QUSUARIO" in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 79
