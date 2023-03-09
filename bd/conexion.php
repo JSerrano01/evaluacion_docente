@@ -3,7 +3,7 @@
      public static function Conectar(){
          //define('servidor','10.3.1.110');
          define('servidor','localhost');
-         define('nombre_bd','evaluacion_docente');
+         define('nombre_bd','evaluacion_docente1');
          define('usuario','root');
          //define('password','WNeqRzh!nHrfA9d**K!^');   
          define('password','');      
@@ -18,7 +18,4 @@
      }
      
  }
- 
-
-
 ?>

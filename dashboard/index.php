@@ -8,7 +8,7 @@
 
     <?php
     include_once '../bd/conexion.php';
-    
+
 
     $objeto = new Conexion();
     $objeto = new Conexion();
