@@ -403,6 +403,6 @@ $resultado38 = mysqli_query($conn, $sql38);
 $resultado39 = mysqli_query($conn, $sql39);
 
 
-header('Location: 1.php');
+header('Location: index.php');
 
 ?>

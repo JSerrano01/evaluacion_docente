@@ -22,18 +22,25 @@ $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 //se debe setear SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 
-
+// Consulta SQL de evaluacion estudiantes 
 $query_eval_estudiantes = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9),1) AS gestion_asig, ROUND(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ,1) AS ambiente_asig, ROUND(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5),1) AS motivacion_asig, ROUND(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5),1) AS evaluacion_asig, ROUND(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
 $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
 $resultado_evalestud->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes = $resultado_evalestud->fetchAll(PDO::FETCH_ASSOC);
 
+//Consulta SQL de estudiantes con promedio de cada indicador
 $query_eval_estudiantes1 = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(AVG(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9)),1) AS gestion_asig, ROUND(AVG(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ),1) AS ambiente_asig, ROUND(AVG(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5)),1) AS motivacion_asig, ROUND(AVG(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5)),1) AS evaluacion_asig, ROUND(AVG(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14)),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento";
 $resultado_evalestud1 = $conexion->prepare($query_eval_estudiantes1);
 $resultado_evalestud1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes1 = $resultado_evalestud1->fetchAll(PDO::FETCH_ASSOC);
 
-
+/*
+$query_eval_decano = "";
+$resultado_eval_decano = $conexion->prepare($query_eval_decano);
+$resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+$data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
+*/
+//Creacion de PDF
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->SetTopMargin(0);
@@ -137,7 +144,7 @@ $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('AUTOEVALUACIÓN DEL DOCENTE (20%)'), 1, 0, 'C', true);
 $pdf->Ln();
 $header = array('Encuesta', 'Dominio de la disciplina', 'Gestión de la Asignatura', 'Ambientes y Estrategias de Aprendizaje', 'Motivación', 'Evaluación', 'Comunicación y Relación con los estudiantes', 'TOTAL', 'VALOR');
-$pdf->SetFont('Arial', 'B', '7.5');
+$pdf->SetFont('Arial', 'B', '6.5');
 $pdf->SetWidths(array(30, 15, 21, 25, 18, 18, 25, 18, 25, 12, 12));
 $pdf->Row($header);
 
@@ -145,13 +152,13 @@ $pdf->Row($header);
 $dominio_disc = $funcion->promedio_valores_preguntas($data_aecatedra[0], 1, 6, 'aecatedra');
 //suma de segundo factor a evaluar - Gestión de la asignatura
 $gestion_asig = $funcion->promedio_valores_preguntas($data_aecatedra[0], 7, 10, 'aecatedra');
-//suma de segundo factor a evaluar - Ambiente y estrategias
+//suma de tercer factor a evaluar - Ambiente y estrategias
 $ambiente_est = $funcion->promedio_valores_preguntas($data_aecatedra[0], 11, 15, 'aecatedra');
-//suma de segundo factor a evaluar - Motivación
+//suma de cuarto factor a evaluar - Motivación
 $motivacion = $funcion->promedio_valores_preguntas($data_aecatedra[0], 16, 20, 'aecatedra');
-//suma de segundo factor a evaluar - Evaluacion
+//suma de quinto factor a evaluar - Evaluacion
 $evaluacion = $funcion->promedio_valores_preguntas($data_aecatedra[0], 21, 26, 'aecatedra');
-//suma de segundo factor a evaluar - Comunicación
+//suma de sexto factor a evaluar - Comunicación
 $comunicacion = $funcion->promedio_valores_preguntas($data_aecatedra[0], 27, 31, 'aecatedra');
 $valores = array($dominio_disc, $gestion_asig, $ambiente_est, $motivacion, $evaluacion, $comunicacion);
 $promedio_valores = round(array_sum($valores) / count($valores), 2);
@@ -175,7 +182,7 @@ $pdf->SetFont('Arial', '', '6.5');
 $pdf->SetWidths(array(10, 15,16, 21, 16, 23, 18, 18, 23, 15, 12));
 
 
-
+//Recorrido para mostrar de la consulta de evaluacion estudiantes
 for ($i = 0; $i < count($data_estudiantes); $i++) {
 
     $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'],$data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], (($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig'])/5 ), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig'])/5) * 0.4 ,2 ))) . "<br>";
@@ -185,17 +192,50 @@ for ($i = 0; $i < count($data_estudiantes); $i++) {
 
 }
 
-$promedio = "PROMEDIO";
+//Recorrido de segunda consulta SQL de evaluacion estudiantes para promedio de cada factor 
 
 for ($i = 0; $i < count($data_estudiantes1); $i++) {
 
-    $pdf->Row(array(" ", $promedio, $data_estudiantes1[$i]['COUNT_ENC'],$data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['ambiente_asig'], $data_estudiantes1[$i]['motivacion_asig'], $data_estudiantes1[$i]['evaluacion_asig'], $data_estudiantes1[$i]['comunicacion_asig'], round(($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig'])/5 ,2), round((($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig'])/5) * 0.4 ,2 ))) . "<br>";
+    $pdf->Row(array(" ", "PROMEDIO", $data_estudiantes1[$i]['COUNT_ENC'],$data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['ambiente_asig'], $data_estudiantes1[$i]['motivacion_asig'], $data_estudiantes1[$i]['evaluacion_asig'], $data_estudiantes1[$i]['comunicacion_asig'], round(($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig'])/5 ,2), round((($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig'])/5) * 0.4 ,2 ) )) . "<br>";
    
     $pdf->Ln();
     $pdf->Ln();
 
 }
 
+$pdf->Ln();
+$pdf->SetCol(0.55);
+$pdf->SetFont('Arial', 'B', '7.5');
+$pdf->SetFillColor(232, 232, 232);
+$pdf->Cell(120, 8, utf8_decode('RESULTADOS CONSOLIDADOS'), 1, 0, 'C', true);
+$pdf->Ln();
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DEL DECANO (40%) '), 0, 0, '');
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(40);
+$pdf->Cell(50, 10, utf8_decode($data_aecatedra[0]['NOMBRE_DOCENTE']), 0, 0, '');
+$pdf->Cell(40);
+$pdf->Ln(4);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->Cell(40, 10, utf8_decode('AUTOEVALUACION (20%) '), 0, 0, '');
+$pdf->Cell(40);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode($promedio_valores . "  " ."(" . $valor_base_porcentaje . ")"), 0, 0, 'L');
+$pdf->Ln(4);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DE LOS ESTUDAINTES (40%) '), 0, 0, '');
+$pdf->Cell(40);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode(round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig'])/5 ,2). "  " ."(". round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig'])/5) * 0.4 ,2 ) .")" ), 0, 0, 'L');
+$pdf->Ln(4);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->Cell(40, 10, utf8_decode('TOTAL PUNTOS '), 0, 0, '');
+$pdf->Cell(40);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode(round(( $promedio_valores + round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig'])/5 ,2) ) / 2 , 2 )), 0, 0, 'L');
+$pdf->Ln();
+
 $pdf->Output();
+
 
 ?>

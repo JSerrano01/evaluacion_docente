@@ -22,24 +22,7 @@ class Functions_Aux
 
 
     
-    public function promedio_valores_preguntas_estud($resultados_array,$resultado)
-    {
-                  
-        // Crear un array multidimensional con los resultados
-        $resultados_array = mysqli_fetch_all($resultado, MYSQLI_ASSOC);
-        
-        // Hacer un round a todos los valores numéricos del array
-        foreach ($resultados_array as &$fila) {
-            foreach ($fila as $clave => &$valor) {
-                if (is_numeric($valor)) {
-                    $valor = round($valor, 2);
-                }
-            }
-        }
-        
-                           
-      return ($resultados_array);  
-    } 
+    
     
 }
 ?>
