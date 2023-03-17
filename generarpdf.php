@@ -28,18 +28,18 @@ $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
 $resultado_evalestud->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes = $resultado_evalestud->fetchAll(PDO::FETCH_ASSOC);
 
-//Consulta SQL de estudiantes con promedio de cada indicador
+//Consulta SQL de estudiantes con promedio de cada indicador resultados
 $query_eval_estudiantes1 = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(AVG(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9)),1) AS gestion_asig, ROUND(AVG(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ),1) AS ambiente_asig, ROUND(AVG(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5)),1) AS motivacion_asig, ROUND(AVG(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5)),1) AS evaluacion_asig, ROUND(AVG(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14)),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento";
 $resultado_evalestud1 = $conexion->prepare($query_eval_estudiantes1);
 $resultado_evalestud1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes1 = $resultado_evalestud1->fetchAll(PDO::FETCH_ASSOC);
 
-/*
-$query_eval_decano = "";
+//Consulta SQL para evaluacion por parte del decano
+$query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta INNER JOIN ae_docente_catedra ON e_decano_planta.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
 $resultado_eval_decano = $conexion->prepare($query_eval_decano);
 $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
-*/
+
 //Creacion de PDF
 $pdf = new PDF();
 $pdf->AliasNbPages();
@@ -89,7 +89,7 @@ $pdf->SetLeftMargin(12);
 $pdf->Cell(40, 10, utf8_decode('EVALUADOR: '), 0, 0, '');
 $pdf->Cell(-18);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(50, 10, utf8_decode($data_aecatedra[79]['NOMBRE_DOCENTE']), 0, 0, '');
+$pdf->Cell(50, 10, utf8_decode($data_decano[0]['NOMBRE_EVALUADOR']), 0, 0, '');
 $pdf->Ln();
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 0, utf8_decode('DOCENTE: '), 0, 0, '');
@@ -117,13 +117,13 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 40, utf8_decode('TOTAL: '), 0, 0, '');
 $pdf->Cell(-15);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(40, 40, utf8_decode($data_aecatedra[0]['CARGO_DOCENTE']), 0, 0, '');
+$pdf->Cell(40, 40, utf8_decode($data_decano[0]['PREGUNTA1']), 0, 0, '');
 $pdf->SetCol(0.5);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 50, utf8_decode('VALOR: '), 0, 0, '');
 $pdf->Cell(-15);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(40, 50, utf8_decode($data_aecatedra[0]['CARGO_DOCENTE']), 0, 0, '');
+$pdf->Cell(40, 50, utf8_decode($data_decano[0]['PREGUNTA2']), 0, 0, '');
 $pdf->SetCol(1);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 60, utf8_decode('FECHA: '), 0, 0, '');
