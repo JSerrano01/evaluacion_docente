@@ -52,3 +52,16 @@ Stack trace:
 [30-Dec-2022 16:21:52 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 59
 [30-Dec-2022 16:24:27 Europe/Berlin] PHP Warning:  Undefined array key "datos" in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 58
 [30-Dec-2022 16:24:27 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 59
+[27-Mar-2023 21:47:59 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 22:01:16 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 22:59:48 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:00:01 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:00:15 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:00:28 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:00:40 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:26:59 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:27:09 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:27:23 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:27:42 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:27:57 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355
+[27-Mar-2023 23:28:10 Europe/Berlin] PHP Fatal error:  Maximum execution time of 120 seconds exceeded in C:\xampp\htdocs\evaluacion_docente\dashboard\admin_class.php on line 355

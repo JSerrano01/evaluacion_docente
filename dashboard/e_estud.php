@@ -9,7 +9,10 @@
             <label for="fileUpload">Seleccione el archivo maestro de evaluación de estudiantes a docentes</label>
             <input class="btn btn-block btn-sm btn-default btn-flat border-primary" type="file" id="fileUpload" />
             <br></br>
-            <input class="btn btn-primary btn-sm btn-default btn-flat border-primary" type="button" id="upload" value="Subir datos"></input>
+            <input class="btn btn-primary btn-sm btn-default btn-flat border-primary" type="button" id="upload" value="Subir datos" ></input>
+            <br></br>
+            <br>NOTA:Despues de subir el archivo plano y termine la carga de este con el mendaje de "¡Registros agregados correctamente!".Presionar el boton "ACTUALIZAR" para hacer la actualizacion en la base de datos</br>
+            <button class="btn btn-primary btn-sm btn-default btn-flat border-primary" onclick="window.location.href='actualizar_e_estud.php'">ACTUALIZAR</button>
         </div>
     </div>
 </div>

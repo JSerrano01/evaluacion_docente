@@ -2,19 +2,24 @@
 include_once 'plantilla.php';
 include_once 'funciones.php';
 include_once 'bd/conexion.php';
+
+
 header("Content-type: application/pdf; charset=utf-8");
 $funcion = new Functions_Aux();
 $objeto = new Conexion();
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
-$query_aecatedra = "SELECT * from ae_docente_catedra";
-//Ejecución de query data de aecatedra
-$resultado_aecatedra = $conexion->prepare($query_aecatedra);
-$resultado_aecatedra->execute();
-$data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 
 
-$query_decanos = "SELECT * from ae_docente_catedra";
+
+if (isset($_POST['documento'])) {
+    $documento = $_POST['documento'];
+    // Hacer algo con la variable $documento
+}else
+
+$documento = 43603692; 
+
+$query_aecatedra = "SELECT * from ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento ";
 //Ejecución de query data de aecatedra
 $resultado_aecatedra = $conexion->prepare($query_aecatedra);
 $resultado_aecatedra->execute();
@@ -34,11 +39,29 @@ $resultado_evalestud1 = $conexion->prepare($query_eval_estudiantes1);
 $resultado_evalestud1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes1 = $resultado_evalestud1->fetchAll(PDO::FETCH_ASSOC);
 
+$query_eval_estudiantes2 = "SELECT GRUPO,PREGUNTA40, GROUP_CONCAT(PREGUNTA40 SEPARATOR ', ') AS RESPUESTAS_PREGUNTA40 FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO, PREGUNTA40";
+$resultado_evalestud2 = $conexion->prepare($query_eval_estudiantes2);
+$resultado_evalestud2->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+$data_estudiantes2 = $resultado_evalestud2->fetchAll(PDO::FETCH_ASSOC);
+
+
 //Consulta SQL para evaluacion por parte del decano
 $query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta INNER JOIN ae_docente_catedra ON e_decano_planta.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
 $resultado_eval_decano = $conexion->prepare($query_eval_decano);
 $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
+
+//Consulta SQL para resultado evaluacion por parte del decano
+$query_eval_decano1 = "SELECT ROUND(SUM(CASE WHEN PREGUNTA1 = 'SI' THEN ((PREGUNTA2 * PREGUNTA3) / 100) ELSE 0 END + CASE WHEN PREGUNTA4 = 'SI' THEN ((PREGUNTA5 * PREGUNTA6) / 100) ELSE 0 END + CASE WHEN PREGUNTA7 = 'SI' THEN ((PREGUNTA8 * PREGUNTA9) / 100) ELSE 0 END + CASE WHEN PREGUNTA10 = 'SI' THEN ((PREGUNTA11 * PREGUNTA12) / 100) ELSE 0 END + CASE WHEN PREGUNTA13 = 'SI' THEN ((PREGUNTA14 * PREGUNTA15) / 100) ELSE 0 END + CASE WHEN PREGUNTA16 = 'SI' THEN ((PREGUNTA17 * PREGUNTA18) / 100) ELSE 0 END) / (SELECT COUNT(*) FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento AND (PREGUNTA1 = 'SI' OR PREGUNTA4 = 'SI' OR PREGUNTA7 = 'SI' OR PREGUNTA10 = 'SI' OR PREGUNTA13 = 'SI' OR PREGUNTA16 = 'SI')), 2) AS RESULTADO FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
+$resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
+$resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+$data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
+
+//Consulta SQL para observaciones por parte del decano
+$query_eval_decano2 = "SELECT PREGUNTA16 AS P16, PREGUNTA17 AS P17, PREGUNTA18 AS P18,PREGUNTA19 AS P19 FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
+$resultado_eval_decano2 = $conexion->prepare($query_eval_decano2);
+$resultado_eval_decano2->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+$data_decano2 = $resultado_eval_decano2->fetchAll(PDO::FETCH_ASSOC);
 
 //Creacion de PDF
 $pdf = new PDF();
@@ -117,13 +140,13 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 40, utf8_decode('TOTAL: '), 0, 0, '');
 $pdf->Cell(-15);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(40, 40, utf8_decode($data_decano[0]['PREGUNTA1']), 0, 0, '');
+$pdf->Cell(40, 40, utf8_decode($data_decano1[0]['RESULTADO']), 0, 0, '');
 $pdf->SetCol(0.5);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 50, utf8_decode('VALOR: '), 0, 0, '');
 $pdf->Cell(-15);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(40, 50, utf8_decode($data_decano[0]['PREGUNTA2']), 0, 0, '');
+$pdf->Cell(40, 50, utf8_decode(ROUND(($data_decano1[0]['RESULTADO'] * 0.4),2)), 0, 0, '');
 $pdf->SetCol(1);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(30, 60, utf8_decode('FECHA: '), 0, 0, '');
@@ -136,7 +159,7 @@ $pdf->Cell(40, 80, utf8_decode('VALOR FINAL: '), 0, 0, '');
 $pdf->SetFont('Arial', '', '6.5');
 $pdf->Cell(-15);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(40, 80, utf8_decode($data_aecatedra[0]['CARGO_DOCENTE'] . ' (' . $data_aecatedra[0]['CARGO_DOCENTE'] . ')'), 0, 0, '');
+$pdf->Cell(40, 80, utf8_decode($data_decano1[0]['RESULTADO'] . ' (' . ROUND(($data_decano1[0]['RESULTADO'] * 0.4),2) . ')'), 0, 0, '');
 $pdf->SetCol(0);
 $pdf->Ln(45);
 $pdf->SetFont('Arial', 'B', '7.5');
@@ -173,7 +196,7 @@ $pdf->SetFont('Arial', 'B', '7.5');
 $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('EVALUACIÓN POR PARTE DE ESTUDIANTES (40%)'), 1, 0, 'C', true);
 $pdf->Ln();
-$header = array('Grupo', 'Encuesta','Dominio de la disciplina', 'Encuestas diligenciadas', 'Gestión de la Asignatura', 'Ambientes y Estrategias de Aprendizaje', 'Motivación', 'Evaluación', 'Comunicación y Relación con los estudiantes', 'TOTAL', 'VALOR');
+$header = array('Grupo', 'Encuesta','Encuestas diligenciadas','Dominio de la disciplina', 'Gestión de la Asignatura', 'Ambientes y Estrategias de Aprendizaje', 'Motivación', 'Evaluación', 'Comunicación y Relación con los estudiantes', 'TOTAL', 'VALOR');
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->SetWidths(array(9, 15,16, 21, 16, 23, 18, 18, 23, 15, 12));
 $pdf->Row($header);
@@ -203,6 +226,9 @@ for ($i = 0; $i < count($data_estudiantes1); $i++) {
 
 }
 
+
+//Mostrar resultados consolidados de la evalucaion
+$pdf->AddPage();
 $pdf->Ln();
 $pdf->SetCol(0.55);
 $pdf->SetFont('Arial', 'B', '7.5');
@@ -213,14 +239,14 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DEL DECANO (40%) '), 0, 0, '');
 $pdf->SetFont('Arial', '', '6.5');
 $pdf->Cell(40);
-$pdf->Cell(50, 10, utf8_decode($data_aecatedra[0]['NOMBRE_DOCENTE']), 0, 0, '');
+$pdf->Cell(50, 10, utf8_decode($data_decano1[0]['RESULTADO'] . "  " ."(" . ROUND(($data_decano1[0]['RESULTADO'] * 0.4),2). ")"), 0, 0, '');
 $pdf->Cell(40);
 $pdf->Ln(4);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 10, utf8_decode('AUTOEVALUACION (20%) '), 0, 0, '');
 $pdf->Cell(40);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(50, 10, utf8_decode($promedio_valores . "  " ."(" . $valor_base_porcentaje . ")"), 0, 0, 'L');
+$pdf->Cell(50, 10, utf8_decode($promedio_valores . "  " ."(" . ROUND($valor_base_porcentaje , 2) . ")"), 0, 0, 'L');
 $pdf->Ln(4);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DE LOS ESTUDAINTES (40%) '), 0, 0, '');
@@ -232,10 +258,110 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 10, utf8_decode('TOTAL PUNTOS '), 0, 0, '');
 $pdf->Cell(40);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(50, 10, utf8_decode(round(( $promedio_valores + round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig'])/5 ,2) ) / 2 , 2 )), 0, 0, 'L');
+$pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.4),2) + ROUND($valor_base_porcentaje , 2) + round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig'])/5) * 0.4 ,2 ) ), 2 )), 0, 0, 'L');
 $pdf->Ln();
+
+
+//Mostar tabla de observaciones
+
+
+$pdf->SetCol(0);
+$pdf->Ln(15);
+$pdf->SetFont('Arial', 'B', '7.5');
+$pdf->SetFillColor(232, 232, 232);
+$pdf->Cell(0, 8, utf8_decode('OBSERVACIONES'), 1, 0, 'C', true);
+$pdf->Ln(10);
+
+
+ //Observaciones por parte del decano
+$pdf->SetCol(0);
+$pdf->Ln(3);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->SetFillColor(232, 232, 232);
+$pdf->Cell(0, 8, utf8_decode('OBSERVACIONES POR PARTE DEL DECANO'), 1, 0, 'C', true);
+$pdf->Ln(8);
+
+$pdf->SetFont('Arial', 'B', '5.5');
+$pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+$pdf->Cell(-12);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(40, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+$pdf->Ln(6);
+
+$pdf->SetFont('Arial', 'B', '5.5');
+$pdf->Cell(80, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+$pdf->Cell(-12);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
+$pdf->Ln(6);
+
+$pdf->SetFont('Arial', 'B', '5.5');
+$pdf->Cell(75, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+$pdf->Cell(-12);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
+$pdf->Ln(6);
+
+$pdf->SetFont('Arial', 'B', '5.5');
+$pdf->Cell(50, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
+$pdf->Cell(-12);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
+$pdf->Ln(15);
+
+//Observaciones Autoevaluacion Docente
+$pdf->SetCol(0);
+$pdf->Ln(3);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->SetFillColor(232, 232, 232);
+$pdf->Cell(0, 8, utf8_decode('OBSERVACIONES AUTOEVALUACION DOCENTE'), 1, 0, 'C', true);
+$pdf->Ln(8);
+
+$pdf->SetFont('Arial', 'B', '5.5');
+$pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+$pdf->Cell(-12);
+$pdf->SetFont('Arial', '', '6.5');
+$pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+$pdf->Ln(15);
+
+
+//Observaciones evaluacion estudiantes
+$pdf->SetCol(0);
+$pdf->Ln(3);
+$pdf->SetFont('Arial', 'B', '6.5');
+$pdf->SetFillColor(232, 232, 232);
+$pdf->Cell(0, 8, utf8_decode('OBSERVACIONES EVALUACION DOCENTE POR PARTE DEL ESTUDIANTES'), 1, 0, 'C', true);
+$pdf->Ln(8);
+
+$pdf->SetFont('Arial', 'B', 6.5);
+$pdf->Cell(150, 10, utf8_decode('OBSERVACIONES '), 0, 0, 'L');
+$pdf->Ln(10);
+
+$pdf->SetFont('Arial', '', 7.1);
+$pdf->SetWidths(array(5, 120));
+$pdf->SetAligns(array('L', 'L'));
+
+// Agrupar las respuestas por grupo
+$respuestas_por_grupo = array();
+foreach ($data_estudiantes2 as $estudiante) {
+    $grupo = $estudiante['GRUPO'];
+    $respuesta = $estudiante['PREGUNTA40'];
+    if (!isset($respuestas_por_grupo[$grupo])) {
+        $respuestas_por_grupo[$grupo] = array();
+    }
+    $respuestas_por_grupo[$grupo][] = $respuesta;
+}
+
+// Mostrar las respuestas por grupo
+foreach ($respuestas_por_grupo as $grupo => $respuestas) {
+    $pdf->Cell(30, 10, "Grupo:" . $grupo, 0, 0, 'L');
+    $pdf->Ln();
+    foreach ($respuestas as $respuesta) {
+        $pdf->Row(array(" - ", $respuesta));
+    }
+    $pdf->Ln();
+}
 
 $pdf->Output();
 
 
-?>

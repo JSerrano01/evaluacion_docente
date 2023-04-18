@@ -59,7 +59,7 @@
                                 <tr>
                                     <td><?php echo $dat['DOCUMENTO_DOCENTE'] ?></td>
                                     <td><?php echo $dat['NOMBRE_DOCENTE'] ?></td>
-                                    <td></td>
+                                    <td><form action="/evaluacion_docente/generarpdf_caso1.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
                                 </tr>
                             <?php
                             }

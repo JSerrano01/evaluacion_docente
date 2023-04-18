@@ -6,7 +6,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
+            <span>Copyright &copy; Your Website 2023</span>
           </div>
         </div>
       </footer>
@@ -151,6 +151,7 @@
                        confirmButtonColor:'#3085d6',
                    }).then((result) => {
                     setTimeout(function(){
+                      
                                   location.reload()
                                 },1500)
                    })
@@ -169,7 +170,15 @@
         }
       }) 
     }
+    
+    $('#update').click(function()
+    {
+      
+      window.location = 'actualizar_e_estud.php';
+    
+    })
   </script>
+
 
     
 

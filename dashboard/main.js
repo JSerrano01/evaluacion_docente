@@ -1,11 +1,6 @@
 $(document).ready(function () {
     tablaPersonas = $("#tablaPersonas").DataTable({
-        "columnDefs": [{
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btnEditar'><i class='fa fa-download'></i>Descargar evaluaciones</button></div></div>"
-        }],
-
+        
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
