@@ -40,11 +40,11 @@
         </div>
     </div>
     <br>
-    <div class="container">
+    <div class="container" style="height:auto ; min-height:100vh">
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive">
-                    <table id="tablaPersonas" class="table table-striped table-bordered table-condensed" style="width:100%">
+                    <table id="tablaPersonas" class="table table-striped table-bordered table-condensed" style="width:100%" >
                         <thead class="text-center">
                             <tr>
                                 <th>DOCUMENTO DOCENTE</th>
@@ -59,8 +59,9 @@
                                 <tr>
                                     <td><?php echo $dat['DOCUMENTO_DOCENTE'] ?></td>
                                     <td><?php echo $dat['NOMBRE_DOCENTE'] ?></td>
-                                    <td><form action="/evaluacion_docente/generarpdf_caso1.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
+                                    <td><form id="myForm" action="/evaluacion_docente/seleccion_caso.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm()" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
                                 </tr>
+                                
                             <?php
                             }
                             ?>

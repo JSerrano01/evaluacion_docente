@@ -14,6 +14,9 @@ if ($conn->connect_error) {
     die("Falló la conexión a la base de datos: " . $conn->connect_error);
 }
 
+//De la pregunta 1 a la 5 tienen diferente formato de respuestas que el resto de preguntas
+
+//Actualizacion de preguntas de la 1 a la 5
 $preguntas = array(
     "PREGUNTA1", "PREGUNTA2", "PREGUNTA3", "PREGUNTA4", "PREGUNTA5"
 );
@@ -33,14 +36,9 @@ for ($i = 1; $i <= count($preguntas); $i++) {
     // Ejecutar la consulta
     $result = mysqli_query($conn, $sql);
 
-    // Verificar si la consulta se ejecutó correctamente
-   /* if ($result) {
-        echo "La pregunta $i se actualizó correctamente. <br>";
-    } else {
-        echo "Error al actualizar la pregunta $i: " . mysqli_error($conn) . "<br>";
-    }*/
 }
 
+//Actualizacion de preguntas de la 6 a la 39
 $preguntas1 = array(
     "PREGUNTA6", "PREGUNTA7", "PREGUNTA8", "PREGUNTA9", "PREGUNTA10","PREGUNTA11","PREGUNTA12","PREGUNTA13","PREGUNTA14","PREGUNTA15","PREGUNTA16","PREGUNTA17","PREGUNTA18","PREGUNTA19","PREGUNTA20","PREGUNTA21","PREGUNTA22","PREGUNTA23","PREGUNTA24","PREGUNTA25","PREGUNTA26","PREGUNTA27","PREGUNTA28","PREGUNTA29","PREGUNTA30","PREGUNTA31","PREGUNTA32","PREGUNTA33","PREGUNTA34","PREGUNTA35","PREGUNTA36","PREGUNTA37","PREGUNTA38","PREGUNTA39"
 );
@@ -60,16 +58,7 @@ for ($i = 6; $i <= 39; $i++) {
     // Ejecutar la consulta
     $result1 = mysqli_query($conn, $sql1);
 
-    // Verificar si la consulta se ejecutó correctamente
-   /* if ($result1) {
-        echo "La pregunta $i se actualizó correctamente. <br>";
-    } else {
-        echo "Error al actualizar la pregunta $i: " . mysqli_error($conn) . "<br>";
-    }*/
-}
-
-  
-  
+}  
   // mostrar un mensaje emergente antes de redirigir
   echo "<script>alert('¡La base de datos fue actualizada!');</script>";
   
