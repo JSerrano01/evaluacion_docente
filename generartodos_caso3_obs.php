@@ -62,6 +62,7 @@ foreach ($documentos as $documento) {
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
+
         $query_aecatedra = "SELECT * ,COUNT(ENCUESTA) AS COUNT_ENCUESTA, PREGUNTA1 + PREGUNTA2 + PREGUNTA3 + PREGUNTA4 + PREGUNTA5 +PREGUNTA6 + PREGUNTA7 + PREGUNTA8  AS TOTAL from ae_docente_sin_catedra WHERE DOCUMENTO_DOCENTE = $documento ";
         //Ejecución de query data de aecatedra
         $resultado_aecatedra = $conexion->prepare($query_aecatedra);
@@ -69,136 +70,136 @@ foreach ($documentos as $documento) {
         $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 
         $query_eval_sin_catedra = "SELECT 
-        ROUND((CASE 
-            WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
-        END +
-        CASE 
-            WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
-        END  +
-        CASE 
-            WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
-        END)/8 ,2)AS RESULTADO
-        FROM ae_docente_sin_catedra 
-        WHERE DOCUMENTO_DOCENTE = :documento";
+ROUND((CASE 
+    WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
+END +
+CASE 
+    WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
+END  +
+CASE 
+    WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
+END
++
+CASE 
+    WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
+END
++
+CASE 
+    WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
+END
++
+CASE 
+    WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
+END
++
+CASE 
+    WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
+END
++
+CASE 
+    WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
+END)/8 ,2)AS RESULTADO
+FROM ae_docente_sin_catedra 
+WHERE DOCUMENTO_DOCENTE = :documento";
         $resultado_eval_sin_catedra = $conexion->prepare($query_eval_sin_catedra);
         $resultado_eval_sin_catedra->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_eval_sin_catedra = $resultado_eval_sin_catedra->fetchAll(PDO::FETCH_ASSOC);
 
 
         $query_eval_sin_catedra1 = "SELECT 
-        (CASE 
-            WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
-        END) AS P1,
-        (CASE 
-            WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
-        END)  AS P2,
-        (CASE 
-            WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
-        END)
-        AS P3,
-        (CASE 
-            WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
-        END)
-        AS P4,
-        (CASE 
-            WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
-        END)
-        AS P5,
-        (CASE 
-            WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
-        END) AS P6,
-        (CASE 
-            WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
-        END) AS P7,
-        (CASE 
-            WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
-        END)AS P8
-        FROM ae_docente_sin_catedra 
-        WHERE DOCUMENTO_DOCENTE = :documento";
+(CASE 
+    WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
+END) AS P1,
+(CASE 
+    WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
+END)  AS P2,
+(CASE 
+    WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
+END)
+AS P3,
+(CASE 
+    WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
+END)
+AS P4,
+(CASE 
+    WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
+END)
+AS P5,
+(CASE 
+    WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
+END) AS P6,
+(CASE 
+    WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
+END) AS P7,
+(CASE 
+    WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
+    WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
+    WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+    WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
+    WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
+END)AS P8
+FROM ae_docente_sin_catedra 
+WHERE DOCUMENTO_DOCENTE = :documento";
         $resultado_eval_sin_catedra1 = $conexion->prepare($query_eval_sin_catedra1);
         $resultado_eval_sin_catedra1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_eval_sin_catedra1 = $resultado_eval_sin_catedra1->fetchAll(PDO::FETCH_ASSOC);
@@ -455,7 +456,7 @@ foreach ($documentos as $documento) {
 
         //Observaciones Autoevaluacion Docente
         $pdf->SetCol(0);
-        $pdf->Ln(3);
+        $pdf->Ln(15);
         $pdf->SetFont('Arial', 'B', '6.5');
         $pdf->SetFillColor(232, 232, 232);
         $pdf->Cell(0, 8, utf8_decode('OBSERVACIONES AUTOEVALUACION DOCENTE'), 1, 0, 'C', true);
@@ -502,7 +503,7 @@ foreach ($documentos as $documento) {
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 3 CON OBSERVACIONES/2021-2_' . $documento . '.pdf');
+        $pdf->Output('F', 'pdfs/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     } else {
 
         continue;

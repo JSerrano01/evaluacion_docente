@@ -27,7 +27,7 @@ if (isset($_POST['documento'])) {
     // Se establece la variable $documento con POST
 } else
 
-    $documento = 1152462082;
+    $documento = 666155;
 
 
 //Verificar si el docente existe en ae_docente_catedra o ae_docente_sin_catedra
@@ -556,19 +556,28 @@ foreach ($data_estudiantes2 as $estudiante) {
     }
     $respuestas_por_grupo[$grupo][] = $respuesta;
 }
-
+//Pregunta espacio en la pagina o agrega una nueva
+$altura_requerida = 30; // ajustar esta altura según sea necesario
+if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+    $pdf->AddPage();
+}
 // Mostrar las respuestas por grupo
 foreach ($respuestas_por_grupo as $grupo => $respuestas) {
     $pdf->Cell(30, 10, "Grupo:" . $grupo, 0, 0, 'L');
     $pdf->Ln();
     foreach ($respuestas as $respuesta) {
         $pdf->Row(array(" - ", $respuesta));
+        //Pregunta espacio en la pagina o agrega una nueva
+$altura_requerida = 30; // ajustar esta altura según sea necesario
+if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+    $pdf->AddPage();
+}
     }
     $pdf->Ln();
 }
 
 //Pregunta espacio en la pagina o agrega una nueva
-$altura_requerida = 90; // ajustar esta altura según sea necesario
+$altura_requerida = 30; // ajustar esta altura según sea necesario
 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
     $pdf->AddPage();
 }

@@ -16,11 +16,7 @@ if ($conn->connect_error) {
 // Crear la consulta SQL para seleccionar los DOCUMENTO_DOCENTE de las tres tablas
 $query = "SELECT DOCUMENTO_DOCENTE 
 FROM ae_docente_catedra 
-WHERE ENCUESTA LIKE '%CON CATEDRA(caso2)%'
-UNION 
-SELECT DOCUMENTO_DOCENTE 
-FROM ae_docente_sin_catedra 
-WHERE ENCUESTA LIKE '%CON CATEDRA(caso2)%";
+WHERE ENCUESTA LIKE '%CON CATEDRA(caso2)%'";
 
 // Ejecutar la consulta y guardar los resultados en un array
 $result = mysqli_query($conn, $query);
@@ -36,6 +32,13 @@ mysqli_free_result($result);
 
 // Generar los PDF correspondientes
 foreach ($documentos as $documento) {
+
+    $pdf_path = 'pdfs/FORMATOS CASO 2/' . $documento . '.pdf';
+
+    // Si el archivo ya existe, saltar al siguiente documento
+    if (file_exists($pdf_path)) {
+        continue;
+    }
 
     //Pregunta si el documento esta para imprimir en caso 2
 
@@ -380,6 +383,6 @@ foreach ($documentos as $documento) {
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 2/2021-2_' . $documento . '.pdf');
+        $pdf->Output('F', 'pdfs/FORMATOS CASO 2/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
     }
 }

@@ -35,7 +35,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-
+        
             </div>
         </div>
     </div>
@@ -49,7 +49,8 @@
                             <tr>
                                 <th>DOCUMENTO DOCENTE</th>
                                 <th>NOMBRE DOCENTE</th>
-                                <th>ACCIONES</th>
+                                <th>DESCARGAR EVALUACION SIN OBS</th>
+                                <th>DESCARGAR EVALUACION CON OBS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +61,8 @@
                                     <td><?php echo $dat['DOCUMENTO_DOCENTE'] ?></td>
                                     <td><?php echo $dat['NOMBRE_DOCENTE'] ?></td>
                                     <td><form id="myForm" action="/evaluacion_docente/seleccion_caso.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm()" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
+                                    <td>
+                                    <form id="myForm2" action="/evaluacion_docente/seleccion_caso_obs.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm2()" class="btn btn-primary"><i class='fa fa-download'></i> Descargar evaluacion</button></form></td>
                                 </tr>
                                 
                             <?php
@@ -70,6 +73,15 @@
                 </div>
             </div>
         </div>
+       <!-- <div> <button class="btn btn-primary">Descargar evaluaciones CASO 1</button></div>
+        <br>
+        <div><button class="btn btn-primary">Descargar evaluaciones CASO 1 OBS</button></div>
+        <br>
+        <div><button class="btn btn-primary">Descargar evaluaciones CASO 2</button></div>
+        <br>
+        <div><button class="btn btn-primary">Descargar evaluaciones CASO 3</button></div>
+        <br>
+        <div><button class="btn btn-primary">Descargar evaluaciones CASO 3 OBS</button></div>-->
     </div>
     <!--FIN del cont principal-->
     <?php require_once "vistas/parte_inferior.php" ?>

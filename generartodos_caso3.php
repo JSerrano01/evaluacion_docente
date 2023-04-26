@@ -381,7 +381,7 @@ foreach ($documentos as $documento) {
         $pdf->Ln(15);
 
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 3/2021-2_' . $documento . '.pdf');
+        $pdf->Output('F', 'pdfs/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
     }
     continue;
 }

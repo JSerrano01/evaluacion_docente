@@ -418,7 +418,7 @@ if ((isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'
 
 //Observaciones Autoevaluacion Docente
 $pdf->SetCol(0);
-$pdf->Ln(3);
+$pdf->Ln(15);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('OBSERVACIONES AUTOEVALUACION DOCENTE'), 1, 0, 'C', true);
