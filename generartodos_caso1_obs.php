@@ -619,7 +619,7 @@ $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
         }
 
         //Pregunta espacio en la pagina o agrega una nueva
-        $altura_requerida = 30; // ajustar esta altura según sea necesario
+        $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
             $pdf->AddPage();
         }

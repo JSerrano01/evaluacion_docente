@@ -351,4 +351,4 @@ $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 $pdf->Ln(15);
 
-$pdf->Output();
+$pdf->Output('I', $periodo_encuesta.'_'. utf8_decode($data_aecatedra[0]['FACULTAD']).'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
