@@ -599,7 +599,7 @@ $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
             $respuestas_por_grupo[$grupo][] = $respuesta;
         }
         //Pregunta espacio en la pagina o agrega una nueva
-        $altura_requerida = 30; // ajustar esta altura según sea necesario
+        $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
             $pdf->AddPage();
         }
@@ -610,7 +610,7 @@ $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
             foreach ($respuestas as $respuesta) {
                 $pdf->Row(array(" - ", $respuesta));
                 //Pregunta espacio en la pagina o agrega una nueva
-                $altura_requerida = 30; // ajustar esta altura según sea necesario
+                $altura_requerida = 90; // ajustar esta altura según sea necesario
                 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
                     $pdf->AddPage();
                 }
@@ -637,6 +637,6 @@ $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 1 OBS/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+        $pdf->Output('F', 'pdfs/FORMATOS CASO 1 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     }
 }

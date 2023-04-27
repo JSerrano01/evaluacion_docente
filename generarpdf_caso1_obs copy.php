@@ -27,7 +27,7 @@ if (isset($_POST['documento'])) {
     // Se establece la variable $documento con POST
 } else
 
-    $documento = 17690018;
+    $documento = 21388406;
 
 
 //Verificar si el docente existe en ae_docente_catedra o ae_docente_sin_catedra
@@ -567,12 +567,13 @@ foreach ($respuestas_por_grupo as $grupo => $respuestas) {
     $pdf->Ln();
     foreach ($respuestas as $respuesta) {
         $pdf->Row(array(" - ", $respuesta));
+       
     }
-    //Pregunta espacio en la pagina o agrega una nueva
-    $altura_requerida = 90; // ajustar esta altura según sea necesario
-    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
-        $pdf->AddPage();
-    }
+     //Pregunta espacio en la pagina o agrega una nueva
+     $altura_requerida = 90; // ajustar esta altura según sea necesario
+     if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+         $pdf->AddPage();
+     }
     $pdf->Ln();
 }
 
@@ -580,7 +581,7 @@ foreach ($respuestas_por_grupo as $grupo => $respuestas) {
 $altura_requerida = 90; // ajustar esta altura según sea necesario
 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
     $pdf->AddPage();
-}
+}/*
 
 $pdf->SetCol(0.1);
 $pdf->Ln(30);
@@ -594,5 +595,5 @@ $pdf->Cell(-1);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 $pdf->Ln(15);
-
+*/
 $pdf->Output('I', $periodo_encuesta . '_' . utf8_decode($data_aecatedra[0]['FACULTAD']) . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');

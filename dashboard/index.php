@@ -54,13 +54,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
+                             <?php
                             foreach ($data as $dat) {
                             ?>
                                 <tr>
                                     <td><?php echo $dat['DOCUMENTO_DOCENTE'] ?></td>
                                     <td><?php echo $dat['NOMBRE_DOCENTE'] ?></td>
-                                    <td><form id="myForm" action="/evaluacion_docente/seleccion_caso.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm()" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
+                                    <td><form id="myForm" action="/evaluacion_docente/seleccion_caso.php" method="post"><input type="hidden" name="documento" value="<?php  echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm()" class="btn btn-primary"><i class='fa fa-download'> Descargar evaluacion</button></form></td>
                                     <td>
                                     <form id="myForm2" action="/evaluacion_docente/seleccion_caso_obs.php" method="post"><input type="hidden" name="documento" value="<?php echo $dat['DOCUMENTO_DOCENTE'] ?>"><button type="submit" onclick="submitForm2()" class="btn btn-primary"><i class='fa fa-download'></i> Descargar evaluacion</button></form></td>
                                 </tr>
