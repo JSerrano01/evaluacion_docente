@@ -503,7 +503,7 @@ WHERE DOCUMENTO_DOCENTE = :documento";
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     } else {
 
         continue;

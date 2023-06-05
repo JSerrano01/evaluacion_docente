@@ -383,6 +383,11 @@ foreach ($documentos as $documento) {
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 2/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 2/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     }
 }
+
+echo "<script>alert('¡El documento no existe en la base de datos!');</script>";
+
+// redirigir a otra página después de mostrar el mensaje emergente
+echo "<script>window.location.href = '/evaluacion_docente/dashboard/index.php';</script>";

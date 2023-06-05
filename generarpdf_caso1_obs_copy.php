@@ -27,8 +27,7 @@ if (isset($_POST['documento'])) {
     // Se establece la variable $documento con POST
 } else
 
-    $documento = 21388406;
-
+    $documento = 666155;
 
 //Verificar si el docente existe en ae_docente_catedra o ae_docente_sin_catedra
 $query = "SELECT * FROM ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento";
@@ -53,14 +52,14 @@ if (mysqli_num_rows($resultado) > 0) {
     }
 }
 /*
-$query_aecatedra = "SELECT * from ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento ";
-//Ejecución de query data de aecatedra
-$resultado_aecatedra = $conexion->prepare($query_aecatedra);
-$resultado_aecatedra->execute();
-$data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
-//se debe setear SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-
-*/
+        $query_aecatedra = "SELECT * from ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento ";
+        //Ejecución de query data de aecatedra
+        $resultado_aecatedra = $conexion->prepare($query_aecatedra);
+        $resultado_aecatedra->execute();
+        $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
+        //se debe setear SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+        
+        */
 // Consulta SQL de evaluacion estudiantes 
 $query_eval_estudiantes = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9),1) AS gestion_asig, ROUND(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ,1) AS ambiente_asig, ROUND(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5),1) AS motivacion_asig, ROUND(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5),1) AS evaluacion_asig, ROUND(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
 $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
@@ -79,18 +78,18 @@ $resultado_evalestud2->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DO
 $data_estudiantes2 = $resultado_evalestud2->fetchAll(PDO::FETCH_ASSOC);
 
 /*
-//Consulta SQL para evaluacion por parte del decano
-$query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta INNER JOIN ae_docente_catedra ON e_decano_planta.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
-$resultado_eval_decano = $conexion->prepare($query_eval_decano);
-$resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-$data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
-
-//Consulta SQL para resultado evaluacion por parte del decano
-$query_eval_decano1 = "SELECT ROUND(SUM(CASE WHEN PREGUNTA1 = 'SI' THEN ((PREGUNTA2 * PREGUNTA3) / 100) ELSE 0 END + CASE WHEN PREGUNTA4 = 'SI' THEN ((PREGUNTA5 * PREGUNTA6) / 100) ELSE 0 END + CASE WHEN PREGUNTA7 = 'SI' THEN ((PREGUNTA8 * PREGUNTA9) / 100) ELSE 0 END + CASE WHEN PREGUNTA10 = 'SI' THEN ((PREGUNTA11 * PREGUNTA12) / 100) ELSE 0 END + CASE WHEN PREGUNTA13 = 'SI' THEN ((PREGUNTA14 * PREGUNTA15) / 100) ELSE 0 END + CASE WHEN PREGUNTA16 = 'SI' THEN ((PREGUNTA17 * PREGUNTA18) / 100) ELSE 0 END) / (SELECT COUNT(*) FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento AND (PREGUNTA1 = 'SI' OR PREGUNTA4 = 'SI' OR PREGUNTA7 = 'SI' OR PREGUNTA10 = 'SI' OR PREGUNTA13 = 'SI' OR PREGUNTA16 = 'SI')), 2) AS RESULTADO FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
-$resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
-$resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-$data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-*/
+        //Consulta SQL para evaluacion por parte del decano
+        $query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta INNER JOIN ae_docente_catedra ON e_decano_planta.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
+        $resultado_eval_decano = $conexion->prepare($query_eval_decano);
+        $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+        $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
+        
+        //Consulta SQL para resultado evaluacion por parte del decano
+        $query_eval_decano1 = "SELECT ROUND(SUM(CASE WHEN PREGUNTA1 = 'SI' THEN ((PREGUNTA2 * PREGUNTA3) / 100) ELSE 0 END + CASE WHEN PREGUNTA4 = 'SI' THEN ((PREGUNTA5 * PREGUNTA6) / 100) ELSE 0 END + CASE WHEN PREGUNTA7 = 'SI' THEN ((PREGUNTA8 * PREGUNTA9) / 100) ELSE 0 END + CASE WHEN PREGUNTA10 = 'SI' THEN ((PREGUNTA11 * PREGUNTA12) / 100) ELSE 0 END + CASE WHEN PREGUNTA13 = 'SI' THEN ((PREGUNTA14 * PREGUNTA15) / 100) ELSE 0 END + CASE WHEN PREGUNTA16 = 'SI' THEN ((PREGUNTA17 * PREGUNTA18) / 100) ELSE 0 END) / (SELECT COUNT(*) FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento AND (PREGUNTA1 = 'SI' OR PREGUNTA4 = 'SI' OR PREGUNTA7 = 'SI' OR PREGUNTA10 = 'SI' OR PREGUNTA13 = 'SI' OR PREGUNTA16 = 'SI')), 2) AS RESULTADO FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
+        $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
+        $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+        $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
+        */
 
 $query1 = "SELECT * FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = $documento";
 $resultado1 = mysqli_query($conn, $query1);
@@ -123,69 +122,69 @@ if (mysqli_num_rows($resultado1) > 0) {
         $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
 
         $query_eval_decano1 = "SELECT 
-        ROUND((CASE 
-            WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
-        END +
-        CASE 
-            WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
-        END  +
-        CASE 
-            WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
-        END)/8 ,2)AS RESULTADO
-        FROM e_decano_catedra 
-        WHERE DOCUMENTO_DOCENTE = :documento";
+                ROUND((CASE 
+                    WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
+                END +
+                CASE 
+                    WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
+                END  +
+                CASE 
+                    WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
+                END
+                +
+                CASE 
+                    WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
+                END
+                +
+                CASE 
+                    WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
+                END
+                +
+                CASE 
+                    WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
+                END
+                +
+                CASE 
+                    WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
+                END
+                +
+                CASE 
+                    WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
+                    WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
+                    WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
+                    WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
+                    WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
+                END)/8 ,2)AS RESULTADO
+                FROM e_decano_catedra 
+                WHERE DOCUMENTO_DOCENTE = :documento";
         $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
         $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
@@ -423,70 +422,75 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('OBSERVACIONES POR PARTE DEL DECANO'), 1, 0, 'C', true);
 $pdf->Ln(8);
+// código a ejecutar si todas las condiciones son verdaderas
 
-if ((isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) &&
-    (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) &&
-    (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) &&
-    (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19']))
-) {
-    // código a ejecutar si todas las condiciones son verdaderas
-
-    if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
-        $pdf->SetFont('Arial', 'B', '5.5');
-        $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
-        $pdf->Cell(-12);
-        $pdf->SetFont('Arial', '', '6.5');
-        $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
-    } else {
-        $pdf->Cell(40);
-        $pdf->SetFont('Arial', 'B', '6.5');
-        $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-        if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
-            $pdf->SetFont('Arial', 'B', '5.5');
-            $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
-            $pdf->Cell(-12);
-            $pdf->SetFont('Arial', '', '6.5');
-            $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
-        } else {
-            $pdf->Cell(40);
-            $pdf->SetFont('Arial', 'B', '6.5');
-            $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-            if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
-                $pdf->SetFont('Arial', 'B', '5.5');
-                $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
-                $pdf->Cell(-12);
-                $pdf->SetFont('Arial', '', '6.5');
-                $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
-            } else {
-                $pdf->Cell(40);
-                $pdf->SetFont('Arial', 'B', '6.5');
-                $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-                if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
-                    $pdf->SetFont('Arial', 'B', '5.5');
-                    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
-                    $pdf->Cell(-12);
-                    $pdf->SetFont('Arial', '', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
-                } else {
-                    $pdf->Cell(40);
-                    $pdf->SetFont('Arial', 'B', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-                }
-            }
-        }
-    }
+if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->SetFont('Arial', '', '6.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+    $pdf->Ln(3);
 } else {
-
-    $pdf->Cell(80);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->Cell(40);
     $pdf->SetFont('Arial', 'B', '6.5');
     $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(3);
 }
+
+if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+    $pdf->Cell(5);
+    $pdf->SetFont('Arial', '', '6.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
+    $pdf->Ln(3);
+} else {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->Cell(40);
+    $pdf->SetFont('Arial', 'B', '6.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(3);
+}
+
+if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->SetFont('Arial', '', '6.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
+    $pdf->Ln(3);
+} else {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+    $pdf->Cell(-5);
+    $pdf->SetFont('Arial', 'B', '6.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(3);
+}
+
+if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->SetFont('Arial', '', '6.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
+    $pdf->Ln(3);
+} else {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
+    $pdf->Cell(-40);
+    $pdf->SetFont('Arial', 'B', '6.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(3);
+}
+
+
 //Pregunta espacio en la pagina o agrega una nueva
 $altura_requerida = 90; // ajustar esta altura según sea necesario
 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
@@ -567,13 +571,12 @@ foreach ($respuestas_por_grupo as $grupo => $respuestas) {
     $pdf->Ln();
     foreach ($respuestas as $respuesta) {
         $pdf->Row(array(" - ", $respuesta));
-       
     }
-     //Pregunta espacio en la pagina o agrega una nueva
-     $altura_requerida = 90; // ajustar esta altura según sea necesario
-     if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
-         $pdf->AddPage();
-     }
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
     $pdf->Ln();
 }
 
@@ -581,7 +584,7 @@ foreach ($respuestas_por_grupo as $grupo => $respuestas) {
 $altura_requerida = 90; // ajustar esta altura según sea necesario
 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
     $pdf->AddPage();
-}/*
+}
 
 $pdf->SetCol(0.1);
 $pdf->Ln(30);
@@ -595,5 +598,5 @@ $pdf->Cell(-1);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 $pdf->Ln(15);
-*/
+
 $pdf->Output('I', $periodo_encuesta . '_' . utf8_decode($data_aecatedra[0]['FACULTAD']) . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');

@@ -425,7 +425,7 @@ foreach ($documentos as $documento) {
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 1/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 1/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
         // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
     }
 }

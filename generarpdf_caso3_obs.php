@@ -352,69 +352,123 @@ $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('OBSERVACIONES POR PARTE DEL DECANO'), 1, 0, 'C', true);
 $pdf->Ln(8);
-if ((isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) &&
-    (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) &&
-    (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) &&
-    (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19']))
-) {
-    // código a ejecutar si todas las condiciones son verdaderas
+// código a ejecutar si todas las condiciones son verdaderas
 
-    if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
-        $pdf->SetFont('Arial', 'B', '5.5');
-        $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
-        $pdf->Cell(-12);
-        $pdf->SetFont('Arial', '', '6.5');
-        $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
-    } else {
-        $pdf->Cell(40);
-        $pdf->SetFont('Arial', 'B', '6.5');
-        $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-        if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
-            $pdf->SetFont('Arial', 'B', '5.5');
-            $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
-            $pdf->Cell(-12);
-            $pdf->SetFont('Arial', '', '6.5');
-            $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
-        } else {
-            $pdf->Cell(40);
-            $pdf->SetFont('Arial', 'B', '6.5');
-            $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-            if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
-                $pdf->SetFont('Arial', 'B', '5.5');
-                $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
-                $pdf->Cell(-12);
-                $pdf->SetFont('Arial', '', '6.5');
-                $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
-            } else {
-                $pdf->Cell(40);
-                $pdf->SetFont('Arial', 'B', '6.5');
-                $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-                if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
-                    $pdf->SetFont('Arial', 'B', '5.5');
-                    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
-                    $pdf->Cell(-12);
-                    $pdf->SetFont('Arial', '', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
-                } else {
-                    $pdf->Cell(40);
-                    $pdf->SetFont('Arial', 'B', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-                }
-            }
-        }
+if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
     }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+    $pdf->Cell(-23);
+    $pdf->SetFont('Arial', '', '5.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+    $pdf->Ln(5);
 } else {
-
-    $pdf->Cell(80);
-    $pdf->SetFont('Arial', 'B', '6.5');
-    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+    $pdf->Cell(-23);
+    $pdf->Cell(10);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(50, 9, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(5);
 }
+
+
+if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
+
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->Ln(3);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+    $pdf->Cell(-1);
+    $pdf->SetFont('Arial', '', '5.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
+    $pdf->Ln(5);
+} else {
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->Ln(3);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->Cell(14);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(50, 9, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(5);
+}
+
+if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
+
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+    $pdf->Cell(-5);
+    $pdf->SetFont('Arial', '', '5.5');
+    $pdf->MultiCell(130, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 1, '');
+    $pdf->Ln(5);
+} else {
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->Cell(-1);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(5);
+}
+
+if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
+
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
+    $pdf->Cell(-45);
+    $pdf->SetFont('Arial', '', '5.5');
+    $pdf->MultiCell(170, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '');
+    $pdf->Ln(5);
+} else {
+    //Pregunta espacio en la pagina o agrega una nueva
+    $altura_requerida = 90; // ajustar esta altura según sea necesario
+    if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
+        $pdf->AddPage();
+    }
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->Cell(-1);
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+    $pdf->Ln(5);
+}
+
+
 
 //Observaciones Autoevaluacion Docente
 $pdf->SetCol(0);
@@ -465,4 +519,4 @@ $pdf->Cell(-1);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 
-$pdf->Output('I', $periodo_encuesta.'_'. utf8_decode($data_aecatedra[0]['FACULTAD']).'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+$pdf->Output('I', $periodo_encuesta . '_' . utf8_decode($data_aecatedra[0]['FACULTAD']) . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');

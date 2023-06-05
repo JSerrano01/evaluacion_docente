@@ -82,6 +82,38 @@
         <div><button class="btn btn-primary">Descargar evaluaciones CASO 3</button></div>
         <br>
         <div><button class="btn btn-primary">Descargar evaluaciones CASO 3 OBS</button></div>-->
+
+        <form action="/evaluacion_docente/generartodos_caso1.php" method="get">
+  <div>
+    <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 1</button>
+  </div>
+</form>
+<br>
+<form action="/evaluacion_docente/generartodos_caso1_obs.php" method="get">
+  <div>
+    <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 1 CON OBS</button>
+  </div>
+</form>
+<br>
+<form action="/evaluacion_docente/generartodos_caso2.php" method="get">
+  <div>
+    <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 2</button>
+  </div>
+</form>
+<br>
+<form action="/evaluacion_docente/generartodos_caso3.php" method="get">
+  <div>
+    <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 3</button>
+  </div>
+</form>
+<br>
+<form action="/evaluacion_docente/generartodos_caso3_obs.php" method="get">
+  <div>
+    <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 3 OBS</button>
+  </div>
+</form>
+<br>
+
     </div>
     <!--FIN del cont principal-->
     <?php require_once "vistas/parte_inferior.php" ?>
