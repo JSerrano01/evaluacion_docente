@@ -404,7 +404,32 @@ foreach ($documentos as $documento) {
         $pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.4), 2) + ROUND($valor_base_porcentaje, 2) + round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5) * 0.4, 2)), 2)), 0, 0, 'L');
         $pdf->Ln();
 
-        //Pregunta espacio en la pagina o agrega una nueva
+        //Variables de resultados totales consolidados a almacenar en base de datos
+
+        $nota_decano = utf8_decode($data_decano1[0]['RESULTADO'] . "  " . "(" . ROUND(($data_decano1[0]['RESULTADO'] * 0.4), 2) . ")");
+
+        $nota_autoevaluacion = ($promedio_valores . "  " . "(" . ROUND($valor_base_porcentaje, 2) . ")");
+
+        $nota_estudiantes = utf8_decode(round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5, 2) . "  " . "(" . round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5) * 0.4, 2) . ")");
+
+        $nota_total = utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.4), 2) + ROUND($valor_base_porcentaje, 2) + round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5) * 0.4, 2)), 2));
+
+        // Preparar la consulta SQL con parámetros
+        $consulta = $conexion->prepare('INSERT INTO informes_finales (DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, NOMINA, FACULTAD, NOTA_ESTUDIANTES,NOTA_AUTOEVAULACION, NOTA_DECANO, NOTA_TOTAL) VALUES (:documento_docente,:nombre_docente,:cargo_docente,:facultad, :nota_decano, :nota_autoevaluacion, :nota_estudiantes, :nota_total)');
+
+        // Asignar los valores de las variables a los parámetros de la consulta
+        $consulta->bindParam(':documento_docente', $data_aecatedra[0]['DOCUMENTO_DOCENTE']);
+        $consulta->bindParam(':nombre_docente', $data_aecatedra[0]['NOMBRE_DOCENTE']);
+        $consulta->bindParam(':cargo_docente', $data_aecatedra[0]['CARGO_DOCENTE']);
+        $consulta->bindParam(':facultad', $data_aecatedra[0]['FACULTAD']);
+        $consulta->bindParam(':nota_decano', $nota_decano);
+        $consulta->bindParam(':nota_autoevaluacion', $nota_autoevaluacion);
+        $consulta->bindParam(':nota_estudiantes', $nota_estudiantes);
+        $consulta->bindParam(':nota_total', $nota_total);
+
+        // Ejecutar la consulta
+        $consulta->execute();
+
         //Pregunta espacio en la pagina o agrega una nueva
         $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
@@ -425,7 +450,6 @@ foreach ($documentos as $documento) {
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
-        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 1/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
-        // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 1/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     }
 }

@@ -361,6 +361,31 @@ foreach ($documentos as $documento) {
         $pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2)), 2)), 0, 0, 'L');
         $pdf->Ln();
 
+
+        //Variables de resultados totales consolidados a almacenar en base de datos
+
+        $nota_decano = utf8_decode($data_decano1[0]['RESULTADO'] . "  ");
+
+        $nota_autoevaluacion = utf8_decode($data_eval_sin_catedra[0]['RESULTADO'] . "  ");
+
+        $nota_total = utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2)), 2));
+
+        $consulta = $conexion->prepare('INSERT INTO informes_finales (DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, NOMINA, FACULTAD,NOTA_AUTOEVAULACION, NOTA_DECANO, NOTA_TOTAL) VALUES (:documento_docente,:nombre_docente,:cargo_docente,:facultad, :nota_decano, :nota_autoevaluacion, :nota_total)');
+        $resultado = mysqli_query($conn, $consulta);
+
+        // Asignar los valores de las variables a los parámetros de la consulta
+        $consulta->bindParam(':documento_docente', $data_aecatedra[0]['DOCUMENTO_DOCENTE']);
+        $consulta->bindParam(':nombre_docente', $data_aecatedra[0]['NOMBRE_DOCENTE']);
+        $consulta->bindParam(':cargo_docente', $data_aecatedra[0]['CARGO_DOCENTE']);
+        $consulta->bindParam(':facultad', $data_aecatedra[0]['FACULTAD']);
+        $consulta->bindParam(':nota_decano', $nota_decano);
+        $consulta->bindParam(':nota_autoevaluacion', $nota_autoevaluacion);
+        $consulta->bindParam(':nota_total', $nota_total);
+
+        // Ejecutar la consulta
+        $consulta->execute();
+
+
         //Pregunta espacio en la pagina o agrega una nueva
         $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
@@ -384,10 +409,14 @@ foreach ($documentos as $documento) {
         $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 3/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     }
     continue;
-}
+} 
 
 ?>
 
-<script>alert('¡Todos los documentos fueron generados con exito!');</script>
+<script>
+    alert('¡Todos los documentos fueron generados con exito!');
+</script>
 
-<script>window.location.href = '/evaluacion_docente/dashboard/index.php';</script>
+<script>
+    window.location.href = '/evaluacion_docente/dashboard/index.php';
+</script>

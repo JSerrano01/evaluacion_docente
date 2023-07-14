@@ -78,6 +78,7 @@ if($_SESSION["s_usuario"] === null){
             <a class="collapse-item" href="e_dec_cat.php">E. Decano cátedra</a>
             <a class="collapse-item" href="e_dec_planta.php">E. Decano planta</a>
             <a class="collapse-item" href="e_estud.php">E. Estudiantes</a>
+            <a class="collapse-item" href="informes_finales.php">Informes Finales</a>
           </div>
         </div>
       </li>

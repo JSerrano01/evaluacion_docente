@@ -73,16 +73,8 @@
                 </div>
             </div>
         </div>
-       <!-- <div> <button class="btn btn-primary">Descargar evaluaciones CASO 1</button></div>
         <br>
-        <div><button class="btn btn-primary">Descargar evaluaciones CASO 1 OBS</button></div>
         <br>
-        <div><button class="btn btn-primary">Descargar evaluaciones CASO 2</button></div>
-        <br>
-        <div><button class="btn btn-primary">Descargar evaluaciones CASO 3</button></div>
-        <br>
-        <div><button class="btn btn-primary">Descargar evaluaciones CASO 3 OBS</button></div>-->
-
         <form action="/evaluacion_docente/generartodos_caso1.php" method="get">
   <div>
     <button type="submit" class="btn btn-primary">Descargar evaluaciones CASO 1</button>
