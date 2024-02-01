@@ -29,7 +29,7 @@ $resultado = mysqli_query($conn, $query);
 if (mysqli_num_rows($resultado) > 0) {
     // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
 ?>
-    <form id="myForm" action="/evaluacion_docente/generarpdf_caso3_obs.php" method="post">
+    <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso3_planta_duplicados.php" method="post">
         <input type="hidden" name="documento" value="<?php echo $documento ?>">
     </form>
     <script>
@@ -47,14 +47,19 @@ if (mysqli_num_rows($resultado) > 0) {
     $query = "SELECT * FROM ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento AND ENCUESTA LIKE '%CON CATEDRA(caso2)%'";
     $resultado = mysqli_query($conn, $query);
     if (mysqli_num_rows($resultado) > 0) {
-                    // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
-                        // el número de documento no se encontró en ae_docente_catedra para Docente Planta
-                        // mostrar un mensaje emergente antes de redirigir
-                        echo "<script>alert('¡El documento no tiene pdf caso 2 con observaciones!');</script>";
+        // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
+    ?>
+        <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso2_planta_duplicados.php" method="post">
+            <input type="hidden" name="documento" value="<?php echo $documento ?>">
+        </form>
+        <script>
+            // Obtener el formulario
+            var form = document.getElementById("myForm");
 
-                        // redirigir a otra página después de mostrar el mensaje emergente
-                        echo "<script>window.location.href = '/evaluacion_docente/dashboard/index.php';</script>";
-                    
+            // Enviar el formulario
+            form.submit();
+        </script>
+        <?php
 
     } else {
         // el número de documento no se encontró en ae_docente_catedra para Docente Catedra PREGRADO
@@ -64,7 +69,7 @@ if (mysqli_num_rows($resultado) > 0) {
         if (mysqli_num_rows($resultado) > 0) {
             // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
         ?>
-            <form id="myForm" action="/evaluacion_docente/generarpdf_caso1_obs.php" method="post">
+            <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso1_planta_duplicados.php" method="post">
                 <input type="hidden" name="documento" value="<?php echo $documento ?>">
             </form>
             <script>
@@ -85,7 +90,7 @@ if (mysqli_num_rows($resultado) > 0) {
             if (mysqli_num_rows($resultado) > 0) {
                 // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
             ?>
-                <form id="myForm" action="/evaluacion_docente/generarpdf_caso3_obs.php" method="post">
+                <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso3_planta_duplicados.php" method="post">
                     <input type="hidden" name="documento" value="<?php echo $documento ?>">
                 </form>
                 <script>
@@ -105,13 +110,18 @@ if (mysqli_num_rows($resultado) > 0) {
                 $resultado = mysqli_query($conn, $query);
                 if (mysqli_num_rows($resultado) > 0) {
                     // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
-                        // el número de documento no se encontró en ae_docente_catedra para Docente Planta
-                        // mostrar un mensaje emergente antes de redirigir
-                        echo "<script>alert('¡El documento no tiene pdf caso 2 con observaciones!');</script>";
+                ?>
+                    <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso2_planta_duplicados.php" method="post">
+                        <input type="hidden" name="documento" value="<?php echo $documento ?>">
+                    </form>
+                    <script>
+                        // Obtener el formulario
+                        var form = document.getElementById("myForm");
 
-                        // redirigir a otra página después de mostrar el mensaje emergente
-                        echo "<script>window.location.href = '/evaluacion_docente1/dashboard/index.php';</script>";
-                    
+                        // Enviar el formulario
+                        form.submit();
+                    </script>
+                    <?php
 
                 } else {
 
@@ -122,7 +132,7 @@ if (mysqli_num_rows($resultado) > 0) {
                     if (mysqli_num_rows($resultado) > 0) {
                         // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
                     ?>
-                        <form id="myForm" action="/evaluacion_docente/generarpdf_caso1_obs.php" method="post">
+                        <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso1_planta_duplicados.php" method="post">
                             <input type="hidden" name="documento" value="<?php echo $documento ?>">
                         </form>
                         <script>

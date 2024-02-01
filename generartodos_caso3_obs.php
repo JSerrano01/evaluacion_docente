@@ -2,10 +2,10 @@
 
 //require_once('plugins/fpdf/fpdf.php');
 
-$servername = "localhost";
+$servername = "10.3.1.110:3306";
 $username = "root";
-$password = "";
-$dbname = "evaluacion_docente1";
+$password = "WNeqRzh!nHrfA9d**K!^";
+$dbname = "evaluacion_docente";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -55,10 +55,10 @@ foreach ($documentos as $documento) {
         $objeto = new Conexion();
         $conexion = $objeto->Conectar();
 
-        $servername = "localhost";
+        $servername = "10.3.1.110:3306";
         $username = "root";
-        $password = "";
-        $dbname = "evaluacion_docente1";
+        $password = "WNeqRzh!nHrfA9d**K!^";
+        $dbname = "evaluacion_docente";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -503,7 +503,8 @@ WHERE DOCUMENTO_DOCENTE = :documento";
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
+        $pdf->Output('F', 'E:/Evaluacion Docente/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
+		//$pdf->Output('F', 'G:/Mi unidad/Evaluacion Docente/FORMATOS CASO 3 OBS/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
     } else {
 
         continue;

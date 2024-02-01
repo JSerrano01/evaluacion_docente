@@ -1,8 +1,12 @@
 <?php
 
-include_once 'plantilla.php';
-include_once 'funciones.php';
-include_once 'bd/conexion.php';
+// Obtén la ruta del directorio raíz del servidor web
+$rootPath = $_SERVER['DOCUMENT_ROOT'];
+
+// Incluye los archivos utilizando rutas relativas al directorio raíz
+include_once $rootPath . '/evaluacion_docente/plantilla.php';
+include_once $rootPath . '/evaluacion_docente/funciones.php';
+include_once $rootPath . '/evaluacion_docente/bd/conexion.php';
 
 
 header("Content-type: application/pdf; charset=utf-8");
@@ -33,7 +37,7 @@ if (isset($_POST['documento'])) {
     // Se establece la variable $documento con POST
 } else
 
-    $documento = 1037576304;
+    $documento = 30306826;
 
 //Verificar si el docente existe en ae_docente_catedra o ae_docente_sin_catedra
 $query = "SELECT * FROM ae_docente_catedra WHERE DOCUMENTO_DOCENTE = $documento";
@@ -79,31 +83,17 @@ $data_estudiantes1 = $resultado_evalestud1->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-$query1 = "SELECT * FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = $documento";
+
+$query1 = "SELECT * FROM e_decano_catedra WHERE DOCUMENTO_DOCENTE = $documento";
 $resultado1 = mysqli_query($conn, $query1);
 if (mysqli_num_rows($resultado1) > 0) {
     //Consulta SQL para evaluacion por parte del decano
-    $query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta INNER JOIN ae_docente_catedra ON e_decano_planta.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
+    $query_eval_decano = "SELECT e_decano_catedra.* FROM e_decano_catedra INNER JOIN ae_docente_catedra ON e_decano_catedra.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
     $resultado_eval_decano = $conexion->prepare($query_eval_decano);
     $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
     $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
 
-    //Consulta SQL para resultado evaluacion por parte del decano
-    $query_eval_decano1 = "SELECT ROUND(SUM(CASE WHEN PREGUNTA1 = 'SI' THEN ((PREGUNTA2 * PREGUNTA3) / 100) ELSE 0 END + CASE WHEN PREGUNTA4 = 'SI' THEN ((PREGUNTA5 * PREGUNTA6) / 100) ELSE 0 END + CASE WHEN PREGUNTA7 = 'SI' THEN ((PREGUNTA8 * PREGUNTA9) / 100) ELSE 0 END + CASE WHEN PREGUNTA10 = 'SI' THEN ((PREGUNTA11 * PREGUNTA12) / 100) ELSE 0 END + CASE WHEN PREGUNTA13 = 'SI' THEN ((PREGUNTA14 * PREGUNTA15) / 100) ELSE 0 END + CASE WHEN PREGUNTA16 = 'SI' THEN ((PREGUNTA17 * PREGUNTA18) / 100) ELSE 0 END) / (SELECT COUNT(*) FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento AND (PREGUNTA1 = 'SI' OR PREGUNTA4 = 'SI' OR PREGUNTA7 = 'SI' OR PREGUNTA10 = 'SI' OR PREGUNTA13 = 'SI' OR PREGUNTA16 = 'SI')), 2) AS RESULTADO FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
-    $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
-    $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-    $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    $query1 = "SELECT * FROM e_decano_catedra WHERE DOCUMENTO_DOCENTE = $documento";
-    $resultado1 = mysqli_query($conn, $query1);
-    if (mysqli_num_rows($resultado1) > 0) {
-        //Consulta SQL para evaluacion por parte del decano
-        $query_eval_decano = "SELECT e_decano_catedra.* FROM e_decano_catedra INNER JOIN ae_docente_catedra ON e_decano_catedra.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
-        $resultado_eval_decano = $conexion->prepare($query_eval_decano);
-        $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-        $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
-
-        $query_eval_decano1 = "SELECT 
+    $query_eval_decano1 = "SELECT 
         ROUND((CASE 
             WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
             WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
@@ -167,11 +157,11 @@ if (mysqli_num_rows($resultado1) > 0) {
         END)/8 ,2)AS RESULTADO
         FROM e_decano_catedra 
         WHERE DOCUMENTO_DOCENTE = :documento";
-        $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
-        $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-        $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-    }
+    $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
+    $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
+    $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 /*
 //Consulta SQL para evaluacion por parte del decano
@@ -331,7 +321,7 @@ $pdf->SetWidths(array(10, 15, 16, 21, 16, 23, 18, 18, 23, 15, 12));
 //Recorrido para mostrar de la consulta de evaluacion estudiantes
 for ($i = 0; $i < count($data_estudiantes); $i++) {
 
-    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6),2), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
+    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6), 2), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
 
     $pdf->Ln();
     $pdf->Ln();
@@ -406,4 +396,4 @@ $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 $pdf->Ln(15);
 
-$pdf->Output('I', $periodo_encuesta.'_'. utf8_decode($data_aecatedra[0]['FACULTAD']).'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+$pdf->Output('I', $periodo_encuesta . '_' . utf8_decode($data_aecatedra[0]['FACULTAD']) . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');

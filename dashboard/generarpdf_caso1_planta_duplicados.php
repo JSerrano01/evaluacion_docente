@@ -1,8 +1,12 @@
 <?php
 
-include_once 'plantilla.php';
-include_once 'funciones.php';
-include_once 'bd/conexion.php';
+// Obtén la ruta del directorio raíz del servidor web
+$rootPath = $_SERVER['DOCUMENT_ROOT'];
+
+// Incluye los archivos utilizando rutas relativas al directorio raíz
+include_once $rootPath . '/evaluacion_docente/plantilla.php';
+include_once $rootPath . '/evaluacion_docente/funciones.php';
+include_once $rootPath . '/evaluacion_docente/bd/conexion.php';
 
 
 header("Content-type: application/pdf; charset=utf-8");
@@ -93,84 +97,6 @@ if (mysqli_num_rows($resultado1) > 0) {
     $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
     $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
     $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    $query1 = "SELECT * FROM e_decano_catedra WHERE DOCUMENTO_DOCENTE = $documento";
-    $resultado1 = mysqli_query($conn, $query1);
-    if (mysqli_num_rows($resultado1) > 0) {
-        //Consulta SQL para evaluacion por parte del decano
-        $query_eval_decano = "SELECT e_decano_catedra.* FROM e_decano_catedra INNER JOIN ae_docente_catedra ON e_decano_catedra.DOCUMENTO_DOCENTE = ae_docente_catedra.DOCUMENTO_DOCENTE WHERE ae_docente_catedra.DOCUMENTO_DOCENTE = :documento";
-        $resultado_eval_decano = $conexion->prepare($query_eval_decano);
-        $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-        $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
-
-        $query_eval_decano1 = "SELECT 
-        ROUND((CASE 
-            WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA1 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA1 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA1 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA1 = 'e) Totalmente de desacuerdo' THEN 1
-        END +
-        CASE 
-            WHEN PREGUNTA2 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA2 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA2 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA2 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA2 = 'e) Totalmente de desacuerdo' THEN 1
-        END  +
-        CASE 
-            WHEN PREGUNTA3 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA3 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA3 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA3 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA3 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA4 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA4 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA4 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA4 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA4 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA5 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA5 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA5 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA5 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA5 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA6 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA6 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA6 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA6 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA6 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA7 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA7 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA7 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA7 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA7 = 'e) Totalmente de desacuerdo' THEN 1
-        END
-        +
-        CASE 
-            WHEN PREGUNTA8 = 'a) Totalmente de acuerdo' THEN 5 
-            WHEN PREGUNTA8 = 'b) De acuerdo' THEN 4 
-            WHEN PREGUNTA8 = 'c) Ni de acuerdo ni en desacuerdo' THEN 3
-            WHEN PREGUNTA8 = 'd) En desacuerdo' THEN 2
-            WHEN PREGUNTA8 = 'e) Totalmente de desacuerdo' THEN 1
-        END)/8 ,2)AS RESULTADO
-        FROM e_decano_catedra 
-        WHERE DOCUMENTO_DOCENTE = :documento";
-        $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
-        $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
-        $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-    }
 }
 
 /*
@@ -331,7 +257,7 @@ $pdf->SetWidths(array(10, 15, 16, 21, 16, 23, 18, 18, 23, 15, 12));
 //Recorrido para mostrar de la consulta de evaluacion estudiantes
 for ($i = 0; $i < count($data_estudiantes); $i++) {
 
-    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6),2), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
+    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6), 2), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
 
     $pdf->Ln();
     $pdf->Ln();
@@ -406,4 +332,4 @@ $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
 $pdf->Ln(15);
 
-$pdf->Output('I', $periodo_encuesta.'_'. utf8_decode($data_aecatedra[0]['FACULTAD']).'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+$pdf->Output('I', $periodo_encuesta . '_' . utf8_decode($data_aecatedra[0]['FACULTAD']) . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');

@@ -1,6 +1,11 @@
 <?php
 //require_once('plugins/fpdf/fpdf.php');
 
+// $servername = "10.3.1.110:3306";
+// $username = "root";
+// $password = "WNeqRzh!nHrfA9d**K!^";
+// $dbname = "evaluacion_docente";
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -54,10 +59,10 @@ foreach ($documentos as $documento) {
         $objeto = new Conexion();
         $conexion = $objeto->Conectar();
         
-        $servername = "localhost";
+        $servername = "10.3.1.110:3306";
         $username = "root";
-        $password = "";
-        $dbname = "evaluacion_docente1";
+        $password = "WNeqRzh!nHrfA9d**K!^";
+        $dbname = "evaluacion_docente";
         
         $conn = new mysqli($servername, $username, $password, $dbname);
         
@@ -381,7 +386,8 @@ foreach ($documentos as $documento) {
         $pdf->Ln(15);
 
 
-        $pdf->Output('F', 'pdfs/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+		//$pdf->Output('D', 'G:/Mi unidad/Evaluacion Docente/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+        $pdf->Output('F', 'E:/Evaluacion Docente/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
     }
     continue;
 }

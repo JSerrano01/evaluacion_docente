@@ -10,6 +10,11 @@ $objeto = new Conexion();
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
 
+// $servername = "10.3.1.110:3306";
+// $username = "root";
+// $password = "WNeqRzh!nHrfA9d**K!^";
+// $dbname = "evaluacion_docente";
+
 $servername = "localhost";
 $username = "root";
 $password = "";

@@ -73,11 +73,12 @@ if($_SESSION["s_usuario"] === null){
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Maestras de evaluación:</h6>
-            <a class="collapse-item" href="a_e_doc_cat.php">A.E docentes con cátedra</a>
-            <a class="collapse-item" href="a_e_doc_sin_cat.php">A.E docentes sin cátedra</a>
-            <a class="collapse-item" href="e_dec_cat.php">E. Decano cátedra</a>
-            <a class="collapse-item" href="e_dec_planta.php">E. Decano planta</a>
-            <a class="collapse-item" href="e_estud.php">E. Estudiantes</a>
+            <a class="collapse-item" href="ae_doc_cat_py.php">A.E docentes con cátedra</a>
+            <a class="collapse-item" href="ae_doc_sin_cat_py.php">A.E docentes sin cátedra</a>
+            <a class="collapse-item" href="e_dec_catedra_py.php">E. Decano cátedra</a>
+            <a class="collapse-item" href="e_dec_planta_py.php">E. Decano planta</a>
+            <a class="collapse-item" href="e_estud_py.php">E. Estudiantes</a>
+            <a class="collapse-item" href="informes_finales.php">Informes Finales</a>
           </div>
         </div>
       </li>
@@ -114,13 +115,13 @@ if($_SESSION["s_usuario"] === null){
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
-
-            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+<!--
+            <!-- Nav Item - Search Dropdown (Visible Only XS) 
             <li class="nav-item dropdown no-arrow d-sm-none">
               <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-search fa-fw"></i>
               </a>
-              <!-- Dropdown - Messages -->
+              <!-- Dropdown - Messages 
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
@@ -135,14 +136,14 @@ if($_SESSION["s_usuario"] === null){
               </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
+            <!-- Nav Item - Alerts 
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
+                 Counter - Alerts 
                 <span class="badge badge-danger badge-counter">3+</span>
               </a>
-              <!-- Dropdown - Alerts -->
+              <!-- Dropdown - Alerts 
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Alerts Center
@@ -184,14 +185,14 @@ if($_SESSION["s_usuario"] === null){
               </div>
             </li>
 
-            <!-- Nav Item - Messages -->
+             Nav Item - Messages 
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
+                 Counter - Messages 
                 <span class="badge badge-danger badge-counter">7</span>
               </a>
-              <!-- Dropdown - Messages -->
+               Dropdown - Messages 
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
                   Message Center
@@ -238,7 +239,7 @@ if($_SESSION["s_usuario"] === null){
                 </a>
                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
               </div>
-            </li>
+            </li> -->
 
             <div class="topbar-divider d-none d-sm-block"></div>
 

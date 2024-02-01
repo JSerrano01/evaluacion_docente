@@ -29,7 +29,7 @@ $resultado = mysqli_query($conn, $query);
 if (mysqli_num_rows($resultado) > 0) {
     // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
 ?>
-    <form id="myForm" action="/evaluacion_docente/generarpdf_caso3_obs.php" method="post">
+    <form id="myForm" action="/evaluacion_docente/dashboard/dashboard/generarpdf_caso3_obs_planta_duplicados.php" method="post">
         <input type="hidden" name="documento" value="<?php echo $documento ?>">
     </form>
     <script>
@@ -64,7 +64,7 @@ if (mysqli_num_rows($resultado) > 0) {
         if (mysqli_num_rows($resultado) > 0) {
             // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
         ?>
-            <form id="myForm" action="/evaluacion_docente/generarpdf_caso1_obs.php" method="post">
+            <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso1_obs_planta_duplicados.php" method="post">
                 <input type="hidden" name="documento" value="<?php echo $documento ?>">
             </form>
             <script>
@@ -85,7 +85,7 @@ if (mysqli_num_rows($resultado) > 0) {
             if (mysqli_num_rows($resultado) > 0) {
                 // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
             ?>
-                <form id="myForm" action="/evaluacion_docente/generarpdf_caso3_obs.php" method="post">
+                <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso3_obs_planta_duplicados.php" method="post">
                     <input type="hidden" name="documento" value="<?php echo $documento ?>">
                 </form>
                 <script>
@@ -122,7 +122,7 @@ if (mysqli_num_rows($resultado) > 0) {
                     if (mysqli_num_rows($resultado) > 0) {
                         // el número de documento se encontró en ae_docente_catedra para Docente Ocasional, enviar POST a archivo1.php
                     ?>
-                        <form id="myForm" action="/evaluacion_docente/generarpdf_caso1_obs.php" method="post">
+                        <form id="myForm" action="/evaluacion_docente/dashboard/generarpdf_caso1_obs_planta_duplicados.php" method="post">
                             <input type="hidden" name="documento" value="<?php echo $documento ?>">
                         </form>
                         <script>

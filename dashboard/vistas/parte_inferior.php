@@ -61,7 +61,7 @@
   <script type="text/javascript" src="vendor/datatables/datatables.min.js"></script>    
   <!-- código propio JS --> 
   <script type="text/javascript" src="main.js"></script>
-  <script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script> "
+  <script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script> 
   <script>
     //función para subir datos desde excel
     $('#upload').click(function()

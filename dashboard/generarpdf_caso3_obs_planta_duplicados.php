@@ -1,7 +1,11 @@
 <?php
-include_once 'plantilla.php';
-include_once 'funciones.php';
-include_once 'bd/conexion.php';
+// Obtén la ruta del directorio raíz del servidor web
+$rootPath = $_SERVER['DOCUMENT_ROOT'];
+
+// Incluye los archivos utilizando rutas relativas al directorio raíz
+include_once $rootPath . '/evaluacion_docente/plantilla.php';
+include_once $rootPath . '/evaluacion_docente/funciones.php';
+include_once $rootPath . '/evaluacion_docente/bd/conexion.php';
 
 
 header("Content-type: application/pdf; charset=utf-8");

@@ -10,6 +10,11 @@ $objeto = new Conexion();
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
 
+// $servername = "10.3.1.110:3306";
+// $username = "root";
+// $password = "WNeqRzh!nHrfA9d**K!^";
+// $dbname = "evaluacion_docente";
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -27,7 +32,7 @@ if (isset($_POST['documento'])) {
     // Se establece la variable $documento con POST
 } else
 
-    $documento = 17690018;
+    $documento = 666155;
 
 
 //Verificar si el docente existe en ae_docente_catedra o ae_docente_sin_catedra
@@ -62,13 +67,13 @@ $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
 
 */
 // Consulta SQL de evaluacion estudiantes 
-$query_eval_estudiantes = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9),1) AS gestion_asig, ROUND(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ,1) AS ambiente_asig, ROUND(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5),1) AS motivacion_asig, ROUND(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5),1) AS evaluacion_asig, ROUND(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
+$query_eval_estudiantes = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(AVG(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9)),2) AS gestion_asig, ROUND(AVG(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ),2) AS ambiente_asig, ROUND(AVG(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5)),2) AS motivacion_asig, ROUND(AVG(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5)),2) AS evaluacion_asig, ROUND(AVG(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14)),2) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento GROUP BY GRUPO";
 $resultado_evalestud = $conexion->prepare($query_eval_estudiantes);
 $resultado_evalestud->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes = $resultado_evalestud->fetchAll(PDO::FETCH_ASSOC);
 
 //Consulta SQL de estudiantes con promedio de cada indicador resultados
-$query_eval_estudiantes1 = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(AVG(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9)),1) AS gestion_asig, ROUND(AVG(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ),1) AS ambiente_asig, ROUND(AVG(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5)),1) AS motivacion_asig, ROUND(AVG(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5)),1) AS evaluacion_asig, ROUND(AVG(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14)),1) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento";
+$query_eval_estudiantes1 = "SELECT  GRUPO, COUNT(GRUPO) as COUNT_ENC, ENCUESTA, ROUND(AVG(((PREGUNTA1 + PREGUNTA4 + PREGUNTA5 + PREGUNTA6 + PREGUNTA7+ PREGUNTA8+ PREGUNTA9+ PREGUNTA10+ PREGUNTA11) / 9)),2) AS gestion_asig, ROUND(AVG(((PREGUNTA12 + PREGUNTA13 + PREGUNTA14 + PREGUNTA15) / 4) ),2) AS ambiente_asig, ROUND(AVG(((PREGUNTA16 + PREGUNTA17 + PREGUNTA18 + PREGUNTA19 + PREGUNTA20) / 5)),2) AS motivacion_asig, ROUND(AVG(((PREGUNTA21 + PREGUNTA22 + PREGUNTA23 + PREGUNTA24 + PREGUNTA25) / 5)),2) AS evaluacion_asig, ROUND(AVG(((PREGUNTA26 + PREGUNTA27 + PREGUNTA28 + PREGUNTA29 + PREGUNTA30 + PREGUNTA31 + PREGUNTA32 + PREGUNTA33 + PREGUNTA34 + PREGUNTA35 + PREGUNTA36 + PREGUNTA37 + PREGUNTA38 + PREGUNTA39) / 14)),2) AS comunicacion_asig FROM e_estud WHERE DOCUMENTO_DOCENTE = :documento";
 $resultado_evalestud1 = $conexion->prepare($query_eval_estudiantes1);
 $resultado_evalestud1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
 $data_estudiantes1 = $resultado_evalestud1->fetchAll(PDO::FETCH_ASSOC);
@@ -344,7 +349,7 @@ $pdf->SetWidths(array(10, 15, 16, 21, 16, 23, 18, 18, 23, 15, 12));
 //Recorrido para mostrar de la consulta de evaluacion estudiantes
 for ($i = 0; $i < count($data_estudiantes); $i++) {
 
-    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], (($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 5), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 5) * 0.4, 2))) . "<br>";
+    $pdf->Row(array($data_estudiantes[$i]['GRUPO'], $data_estudiantes[$i]['ENCUESTA'], $data_estudiantes[$i]['COUNT_ENC'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['gestion_asig'], $data_estudiantes[$i]['ambiente_asig'], $data_estudiantes[$i]['motivacion_asig'], $data_estudiantes[$i]['evaluacion_asig'], $data_estudiantes[$i]['comunicacion_asig'], round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6),2), round((($data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['gestion_asig'] + $data_estudiantes[$i]['ambiente_asig'] + $data_estudiantes[$i]['motivacion_asig'] + $data_estudiantes[$i]['evaluacion_asig'] + $data_estudiantes[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
 
     $pdf->Ln();
     $pdf->Ln();
@@ -354,7 +359,7 @@ for ($i = 0; $i < count($data_estudiantes); $i++) {
 
 for ($i = 0; $i < count($data_estudiantes1); $i++) {
 
-    $pdf->Row(array(" ", "PROMEDIO", $data_estudiantes1[$i]['COUNT_ENC'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['ambiente_asig'], $data_estudiantes1[$i]['motivacion_asig'], $data_estudiantes1[$i]['evaluacion_asig'], $data_estudiantes1[$i]['comunicacion_asig'], round(($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig']) / 5, 2), round((($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig']) / 5) * 0.4, 2))) . "<br>";
+    $pdf->Row(array(" ", "PROMEDIO", $data_estudiantes1[$i]['COUNT_ENC'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['gestion_asig'], $data_estudiantes1[$i]['ambiente_asig'], $data_estudiantes1[$i]['motivacion_asig'], $data_estudiantes1[$i]['evaluacion_asig'], $data_estudiantes1[$i]['comunicacion_asig'], round(($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig']) / 6, 2), round((($data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['gestion_asig'] + $data_estudiantes1[$i]['ambiente_asig'] + $data_estudiantes1[$i]['motivacion_asig'] + $data_estudiantes1[$i]['evaluacion_asig'] + $data_estudiantes1[$i]['comunicacion_asig']) / 6) * 0.4, 2))) . "<br>";
 
     $pdf->Ln();
     $pdf->Ln();
@@ -383,16 +388,16 @@ $pdf->SetFont('Arial', '', '6.5');
 $pdf->Cell(50, 10, utf8_decode($promedio_valores . "  " . "(" . ROUND($valor_base_porcentaje, 2) . ")"), 0, 0, 'L');
 $pdf->Ln(4);
 $pdf->SetFont('Arial', 'B', '6.5');
-$pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DE LOS ESTUDAINTES (40%) '), 0, 0, '');
+$pdf->Cell(40, 10, utf8_decode('EVALUACION POR PARTE DE LOS ESTUDIANTES (40%) '), 0, 0, '');
 $pdf->Cell(40);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(50, 10, utf8_decode(round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5, 2) . "  " . "(" . round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5) * 0.4, 2) . ")"), 0, 0, 'L');
+$pdf->Cell(50, 10, utf8_decode(round(($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 6, 2) . "  " . "(" . round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 6) * 0.4, 2) . ")"), 0, 0, 'L');
 $pdf->Ln(4);
 $pdf->SetFont('Arial', 'B', '6.5');
 $pdf->Cell(40, 10, utf8_decode('TOTAL PUNTOS '), 0, 0, '');
 $pdf->Cell(40);
 $pdf->SetFont('Arial', '', '6.5');
-$pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.4), 2) + ROUND($valor_base_porcentaje, 2) + round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 5) * 0.4, 2)), 2)), 0, 0, 'L');
+$pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.4), 2) + ROUND($valor_base_porcentaje, 2) + round((($data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['gestion_asig'] + $data_estudiantes1[0]['ambiente_asig'] + $data_estudiantes1[0]['motivacion_asig'] + $data_estudiantes1[0]['evaluacion_asig'] + $data_estudiantes1[0]['comunicacion_asig']) / 6) * 0.4, 2)), 2)), 0, 0, 'L');
 $pdf->Ln();
 
 //Pregunta espacio en la pagina o agrega una nueva
@@ -424,69 +429,60 @@ $pdf->SetFillColor(232, 232, 232);
 $pdf->Cell(0, 8, utf8_decode('OBSERVACIONES POR PARTE DEL DECANO'), 1, 0, 'C', true);
 $pdf->Ln(8);
 
-if ((isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) &&
-    (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) &&
-    (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) &&
-    (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19']))
-) {
-    // código a ejecutar si todas las condiciones son verdaderas
+// código a ejecutar si todas las condiciones son verdaderas
 
-    if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
+if (isset($data_decano[0]['PREGUNTA16']) && !empty($data_decano[0]['PREGUNTA16'])) {
+    $pdf->SetFont('Arial', 'B', '5.5');
+    $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+    $pdf->Cell(-12);
+    $pdf->SetFont('Arial', '', '6.5');
+    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+} else {
+    $pdf->Cell(40);
+    $pdf->SetFont('Arial', 'B', '6.5');
+    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
+
+
+    if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
         $pdf->SetFont('Arial', 'B', '5.5');
-        $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS QUE SE DEBEN MEJORAR: '), 0, 0, '');
+        $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
         $pdf->Cell(-12);
         $pdf->SetFont('Arial', '', '6.5');
-        $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA16']), 0, 0, '', false);
+        $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
     } else {
         $pdf->Cell(40);
         $pdf->SetFont('Arial', 'B', '6.5');
         $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
 
 
-        if (isset($data_decano[0]['PREGUNTA17']) && !empty($data_decano[0]['PREGUNTA17'])) {
+        if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
             $pdf->SetFont('Arial', 'B', '5.5');
-            $pdf->Cell(65, 10, utf8_decode('FACTORES Y ASPECTOS EN LOS QUE SOBRESALE EL EVALUADO: '), 0, 0, '');
+            $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
             $pdf->Cell(-12);
             $pdf->SetFont('Arial', '', '6.5');
-            $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA17']), 0, 0, '', false);
+            $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
         } else {
             $pdf->Cell(40);
             $pdf->SetFont('Arial', 'B', '6.5');
             $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
 
 
-            if (isset($data_decano[0]['PREGUNTA18']) && !empty($data_decano[0]['PREGUNTA18'])) {
+            if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
                 $pdf->SetFont('Arial', 'B', '5.5');
-                $pdf->Cell(65, 10, utf8_decode('LIMITACIONES PARA EL CUMPLIMIENTO DE LOS OBJETIVOS: '), 0, 0, '');
+                $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
                 $pdf->Cell(-12);
                 $pdf->SetFont('Arial', '', '6.5');
-                $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA18']), 0, 0, '', false);
+                $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
             } else {
                 $pdf->Cell(40);
                 $pdf->SetFont('Arial', 'B', '6.5');
                 $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-
-
-                if (isset($data_decano[0]['PREGUNTA19']) && !empty($data_decano[0]['PREGUNTA19'])) {
-                    $pdf->SetFont('Arial', 'B', '5.5');
-                    $pdf->Cell(65, 10, utf8_decode('OBSERVACIONES: '), 0, 0, '');
-                    $pdf->Cell(-12);
-                    $pdf->SetFont('Arial', '', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode($data_decano[0]['PREGUNTA19']), 0, 0, '', false);
-                } else {
-                    $pdf->Cell(40);
-                    $pdf->SetFont('Arial', 'B', '6.5');
-                    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
-                }
             }
         }
     }
-} else {
-
-    $pdf->Cell(80);
-    $pdf->SetFont('Arial', 'B', '6.5');
-    $pdf->Cell(50, 10, utf8_decode('No Hay Observaciones'), 0, 0, '', false);
 }
+
+
 //Pregunta espacio en la pagina o agrega una nueva
 $altura_requerida = 90; // ajustar esta altura según sea necesario
 if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
