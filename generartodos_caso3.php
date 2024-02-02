@@ -51,27 +51,36 @@ foreach ($documentos as $documento) {
         include_once 'plantilla.php';
         include_once 'funciones.php';
         include_once 'bd/conexion.php';
-        
-        
+
+
         header("Content-type: application/pdf; charset=utf-8");
         $funcion = new Functions_Aux();
         $objeto = new Conexion();
         $objeto = new Conexion();
         $conexion = $objeto->Conectar();
+<<<<<<< HEAD
         
         $servername = "10.3.1.110:3306";
         $username = "root";
         $password = "WNeqRzh!nHrfA9d**K!^";
         $dbname = "evaluacion_docente";
         
+=======
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "evaluacion_docente1";
+
+>>>>>>> 3ba1478b7baa3aa22dc5bf14fc9a3b53445dce93
         $conn = new mysqli($servername, $username, $password, $dbname);
-        
+
         $query_aecatedra = "SELECT * ,COUNT(ENCUESTA) AS COUNT_ENCUESTA, PREGUNTA1 + PREGUNTA2 + PREGUNTA3 + PREGUNTA4 + PREGUNTA5 +PREGUNTA6 + PREGUNTA7 + PREGUNTA8  AS TOTAL from ae_docente_sin_catedra WHERE DOCUMENTO_DOCENTE = $documento ";
         //Ejecución de query data de aecatedra
         $resultado_aecatedra = $conexion->prepare($query_aecatedra);
         $resultado_aecatedra->execute();
         $data_aecatedra = $resultado_aecatedra->fetchAll(PDO::FETCH_ASSOC);
-        
+
         $query_eval_sin_catedra = "SELECT 
         ROUND((CASE 
             WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
@@ -139,8 +148,8 @@ foreach ($documentos as $documento) {
         $resultado_eval_sin_catedra = $conexion->prepare($query_eval_sin_catedra);
         $resultado_eval_sin_catedra->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_eval_sin_catedra = $resultado_eval_sin_catedra->fetchAll(PDO::FETCH_ASSOC);
-        
-        
+
+
         $query_eval_sin_catedra1 = "SELECT 
         (CASE 
             WHEN PREGUNTA1 = 'a) Totalmente de acuerdo' THEN 5 
@@ -206,21 +215,21 @@ foreach ($documentos as $documento) {
         $resultado_eval_sin_catedra1 = $conexion->prepare($query_eval_sin_catedra1);
         $resultado_eval_sin_catedra1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_eval_sin_catedra1 = $resultado_eval_sin_catedra1->fetchAll(PDO::FETCH_ASSOC);
-        
-        
+
+
         //Consulta SQL para evaluacion por parte del decano
         $query_eval_decano = "SELECT e_decano_planta.* FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
         $resultado_eval_decano = $conexion->prepare($query_eval_decano);
         $resultado_eval_decano->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_decano = $resultado_eval_decano->fetchAll(PDO::FETCH_ASSOC);
-        
+
         //Consulta SQL para resultado evaluacion por parte del decano
         $query_eval_decano1 = "SELECT ROUND(SUM(CASE WHEN PREGUNTA1 = 'SI' THEN ((PREGUNTA2 * PREGUNTA3) / 100) ELSE 0 END + CASE WHEN PREGUNTA4 = 'SI' THEN ((PREGUNTA5 * PREGUNTA6) / 100) ELSE 0 END + CASE WHEN PREGUNTA7 = 'SI' THEN ((PREGUNTA8 * PREGUNTA9) / 100) ELSE 0 END + CASE WHEN PREGUNTA10 = 'SI' THEN ((PREGUNTA11 * PREGUNTA12) / 100) ELSE 0 END + CASE WHEN PREGUNTA13 = 'SI' THEN ((PREGUNTA14 * PREGUNTA15) / 100) ELSE 0 END + CASE WHEN PREGUNTA16 = 'SI' THEN ((PREGUNTA17 * PREGUNTA18) / 100) ELSE 0 END) / (SELECT COUNT(*) FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento AND (PREGUNTA1 = 'SI' OR PREGUNTA4 = 'SI' OR PREGUNTA7 = 'SI' OR PREGUNTA10 = 'SI' OR PREGUNTA13 = 'SI' OR PREGUNTA16 = 'SI')), 2) AS RESULTADO FROM e_decano_planta WHERE DOCUMENTO_DOCENTE = :documento";
         $resultado_eval_decano1 = $conexion->prepare($query_eval_decano1);
         $resultado_eval_decano1->execute([':documento' => $data_aecatedra[0]['DOCUMENTO_DOCENTE']]);
         $data_decano1 = $resultado_eval_decano1->fetchAll(PDO::FETCH_ASSOC);
-        
-        
+
+
         //Creacion de PDF
         $pdf = new PDF();
         $pdf->AliasNbPages();
@@ -299,7 +308,7 @@ foreach ($documentos as $documento) {
         $pdf->Cell(-15);
         $pdf->SetFont('Arial', '', '6.5');
         $pdf->Cell(40, 40, utf8_decode($data_decano1[0]['RESULTADO']), 0, 0, '');
-        $pdf->SetCol(0.5); 
+        $pdf->SetCol(0.5);
         $pdf->SetFont('Arial', 'B', '6.5');
         $pdf->Cell(30, 50, utf8_decode('VALOR: '), 0, 0, '');
         $pdf->Cell(-15);
@@ -324,21 +333,21 @@ foreach ($documentos as $documento) {
         $pdf->SetFillColor(232, 232, 232);
         $pdf->Cell(0, 8, utf8_decode('AUTOEVALUACIÓN DEL DOCENTE (30%)'), 1, 0, 'C', true);
         $pdf->Ln();
-        $header = array('Encuesta','Total Encuestas' ,'Asistencia a Reuniones', 'Aporte al mejoramiento de contenido', 'Información oportuna del curso', 'Uso de TICs y otros recursos', 'Puntualidad en actividades académicas', 'Puntualidad en evaluación del curso','Ecuanimidad y respeto en el entorno','Cumplimiento en entrega de informes', 'TOTAL VALOR');
+        $header = array('Encuesta', 'Total Encuestas', 'Asistencia a Reuniones', 'Aporte al mejoramiento de contenido', 'Información oportuna del curso', 'Uso de TICs y otros recursos', 'Puntualidad en actividades académicas', 'Puntualidad en evaluación del curso', 'Ecuanimidad y respeto en el entorno', 'Cumplimiento en entrega de informes', 'TOTAL VALOR');
         $pdf->SetFont('Arial', 'B', '6.5');
         $pdf->SetWidths(array(13, 15, 16, 20, 20, 16, 20, 20, 20, 20, 12));
         $pdf->Row($header);
-        
+
         $pdf->SetFont('Arial', '', '5.5');
-        $pdf->Row(array($data_aecatedra[0]['ENCUESTA'], $data_aecatedra[0]['COUNT_ENCUESTA'], $data_eval_sin_catedra1[0]['P1'], $data_eval_sin_catedra1[0]['P2'], $data_eval_sin_catedra1[0]['P3'], $data_eval_sin_catedra1[0]['P4'], $data_eval_sin_catedra1[0]['P5'], $data_eval_sin_catedra1[0]['P6'], $data_eval_sin_catedra1[0]['P7'], $data_eval_sin_catedra1[0]['P8'], $data_eval_sin_catedra[0]['RESULTADO'])) ;
-        
-        
+        $pdf->Row(array($data_aecatedra[0]['ENCUESTA'], $data_aecatedra[0]['COUNT_ENCUESTA'], $data_eval_sin_catedra1[0]['P1'], $data_eval_sin_catedra1[0]['P2'], $data_eval_sin_catedra1[0]['P3'], $data_eval_sin_catedra1[0]['P4'], $data_eval_sin_catedra1[0]['P5'], $data_eval_sin_catedra1[0]['P6'], $data_eval_sin_catedra1[0]['P7'], $data_eval_sin_catedra1[0]['P8'], $data_eval_sin_catedra[0]['RESULTADO']));
+
+
         //Mostrar resultados consolidados de la evalucaion
         $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
             $pdf->AddPage();
         }
-        
+
         $pdf->Ln();
         $pdf->SetCol(0.55);
         $pdf->SetFont('Arial', 'B', '7.5');
@@ -358,20 +367,45 @@ foreach ($documentos as $documento) {
         $pdf->SetFont('Arial', '', '6.5');
         $pdf->Cell(50, 10, utf8_decode($data_eval_sin_catedra[0]['RESULTADO'] . "  " . "(" . ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2) . ")"), 0, 0, 'L');
         $pdf->Ln(4);
-        
+
         $pdf->SetFont('Arial', 'B', '6.5');
         $pdf->Cell(40, 10, utf8_decode('TOTAL PUNTOS '), 0, 0, '');
         $pdf->Cell(40);
         $pdf->SetFont('Arial', '', '6.5');
-        $pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2)),2)), 0, 0, 'L');
+        $pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2)), 2)), 0, 0, 'L');
         $pdf->Ln();
-        
+
+
+        //Variables de resultados totales consolidados a almacenar en base de datos
+
+        $nota_decano = utf8_decode($data_decano1[0]['RESULTADO'] . "  ");
+
+        $nota_autoevaluacion = utf8_decode($data_eval_sin_catedra[0]['RESULTADO'] . "  ");
+
+        $nota_total = utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ROUND(($data_eval_sin_catedra[0]['RESULTADO'] * 0.3), 2)), 2));
+
+        $consulta = $conexion->prepare('INSERT INTO informes_finales (DOCUMENTO_DOCENTE, NOMBRE_DOCENTE, NOMINA, FACULTAD,NOTA_AUTOEVAULACION, NOTA_DECANO, NOTA_TOTAL) VALUES (:documento_docente,:nombre_docente,:cargo_docente,:facultad, :nota_decano, :nota_autoevaluacion, :nota_total)');
+        $resultado = mysqli_query($conn, $consulta);
+
+        // Asignar los valores de las variables a los parámetros de la consulta
+        $consulta->bindParam(':documento_docente', $data_aecatedra[0]['DOCUMENTO_DOCENTE']);
+        $consulta->bindParam(':nombre_docente', $data_aecatedra[0]['NOMBRE_DOCENTE']);
+        $consulta->bindParam(':cargo_docente', $data_aecatedra[0]['CARGO_DOCENTE']);
+        $consulta->bindParam(':facultad', $data_aecatedra[0]['FACULTAD']);
+        $consulta->bindParam(':nota_decano', $nota_decano);
+        $consulta->bindParam(':nota_autoevaluacion', $nota_autoevaluacion);
+        $consulta->bindParam(':nota_total', $nota_total);
+
+        // Ejecutar la consulta
+        $consulta->execute();
+
+
         //Pregunta espacio en la pagina o agrega una nueva
         $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
             $pdf->AddPage();
         }
-        
+
         $pdf->SetCol(0.1);
         $pdf->Ln(30);
         $pdf->SetFont('Arial', 'B', 7);
@@ -386,8 +420,22 @@ foreach ($documentos as $documento) {
         $pdf->Ln(15);
 
 
+<<<<<<< HEAD
 		//$pdf->Output('D', 'G:/Mi unidad/Evaluacion Docente/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
         $pdf->Output('F', 'E:/Evaluacion Docente/FORMATOS CASO 3/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+=======
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 3/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
+>>>>>>> 3ba1478b7baa3aa22dc5bf14fc9a3b53445dce93
     }
     continue;
-}
+} 
+
+?>
+
+<script>
+    alert('¡Todos los documentos fueron generados con exito!');
+</script>
+
+<script>
+    window.location.href = '/evaluacion_docente/dashboard/index.php';
+</script>

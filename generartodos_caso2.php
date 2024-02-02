@@ -364,6 +364,16 @@ foreach ($documentos as $documento) {
         $pdf->Cell(50, 10, utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ($valor_base_porcentaje)), 2)), 0, 0, 'L');
         $pdf->Ln();
 
+
+        //Variables de resultados totales consolidados a almacenar en base de datos
+
+        $nota_decano = utf8_decode($data_decano1[0]['RESULTADO'] . "  " . "(" . ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) . ")");
+        
+        $nota_autoevaluacion = utf8_decode($promedio_valores . "  " . "(" . ROUND($valor_base_porcentaje, 2) . ")");
+
+        $nota_total = utf8_decode(round((ROUND(($data_decano1[0]['RESULTADO'] * 0.7), 2) + ($valor_base_porcentaje)), 2));
+
+
         //Pregunta espacio en la pagina o agrega una nueva
         $altura_requerida = 90; // ajustar esta altura según sea necesario
         if ($pdf->GetY() + $altura_requerida > $pdf->GetPageHeight()) {
@@ -383,7 +393,16 @@ foreach ($documentos as $documento) {
         $pdf->Cell(150, 10, utf8_decode('FECHA DE LA EVALUACION'), 0, 0, 'L');
         $pdf->Ln(15);
 
+<<<<<<< HEAD
         $pdf->Output('F', 'E:/Evaluacion Docente/FORMATOS CASO 2/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
 		//$pdf->Output('F', 'E:/Evaluacion Docente/FORMATOS CASO 2/'. $periodo_encuesta.'_'. $data_aecatedra[0]['FACULTAD'].'-' .$data_aecatedra[0]['CARGO_DOCENTE'] .'_Cedula'. $documento .'_'.$data_aecatedra[0]['NOMBRE_DOCENTE']. '.pdf');
+=======
+        $pdf->Output('F', 'C:/xampp/htdocs/evaluacion_docente/pdfs/FORMATOS CASO 2/' . $periodo_encuesta . '_' . $data_aecatedra[0]['FACULTAD'] . '-' . $data_aecatedra[0]['CARGO_DOCENTE'] . '_Cedula' . $documento . '_' . $data_aecatedra[0]['NOMBRE_DOCENTE'] . '.pdf');
+>>>>>>> 3ba1478b7baa3aa22dc5bf14fc9a3b53445dce93
     }
 }
+
+echo "<script>alert('¡El documento no existe en la base de datos!');</script>";
+
+// redirigir a otra página después de mostrar el mensaje emergente
+echo "<script>window.location.href = '/evaluacion_docente/dashboard/index.php';</script>";

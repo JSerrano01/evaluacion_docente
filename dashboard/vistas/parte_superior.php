@@ -73,11 +73,19 @@ if($_SESSION["s_usuario"] === null){
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Maestras de evaluación:</h6>
+<<<<<<< HEAD
             <a class="collapse-item" href="ae_doc_cat_py.php">A.E docentes con cátedra</a>
             <a class="collapse-item" href="ae_doc_sin_cat_py.php">A.E docentes sin cátedra</a>
             <a class="collapse-item" href="e_dec_catedra_py.php">E. Decano cátedra</a>
             <a class="collapse-item" href="e_dec_planta_py.php">E. Decano planta</a>
             <a class="collapse-item" href="e_estud_py.php">E. Estudiantes</a>
+=======
+            <a class="collapse-item" href="a_e_doc_cat.php">A.E docentes con cátedra</a>
+            <a class="collapse-item" href="a_e_doc_sin_cat.php">A.E docentes sin cátedra</a>
+            <a class="collapse-item" href="e_dec_cat.php">E. Decano cátedra</a>
+            <a class="collapse-item" href="e_dec_planta.php">E. Decano planta</a>
+            <a class="collapse-item" href="e_estud.php">E. Estudiantes</a>
+>>>>>>> 3ba1478b7baa3aa22dc5bf14fc9a3b53445dce93
             <a class="collapse-item" href="informes_finales.php">Informes Finales</a>
           </div>
         </div>
