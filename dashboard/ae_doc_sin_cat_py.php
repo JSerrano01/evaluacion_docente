@@ -10,21 +10,21 @@
 
         <!-- --------------------------------------------ENLACE A LOCAL ------------------------------------------------------------------------------ -->
 
-        <form class="card-tools" action="http://127.0.0.1:5000/cargar_datos_ae_doc_sin_catedra" method="post" enctype="multipart/form-data">
-            <label for="fileUpload">Seleccione el archivo maestro de autoevaluación de docentes sin cátedra</label>
-            <input class="btn btn-block btn-sm btn-default btn-flat border-primary" type="file" name="archivo_excel" id="archivo" accept=".xlsx" required>
-            <br></br>
-            <button class="btn btn-primary btn-sm btn-default btn-flat border-primary" type="submit">Subir Datos</button>
-        </form>
-
-        <!-- --------------------------------------------ENLACE A PRODUCCION ------------------------------------------------------------------------------ -->
-<!-- 
-        <form class="card-tools" action="https://apps2.colmayor.edu.co/cargar_datos_ae_doc_sin_catedra" method="post" enctype="multipart/form-data">
+        <!-- <form class="card-tools" action="http://127.0.0.1:5000/cargar_datos_ae_doc_sin_catedra" method="post" enctype="multipart/form-data">
             <label for="fileUpload">Seleccione el archivo maestro de autoevaluación de docentes sin cátedra</label>
             <input class="btn btn-block btn-sm btn-default btn-flat border-primary" type="file" name="archivo_excel" id="archivo" accept=".xlsx" required>
             <br></br>
             <button class="btn btn-primary btn-sm btn-default btn-flat border-primary" type="submit">Subir Datos</button>
         </form> -->
+
+        <!-- --------------------------------------------ENLACE A PRODUCCION ------------------------------------------------------------------------------ -->
+
+        <form class="card-tools" action="https://apps2.colmayor.edu.co/cargar_datos_ae_doc_sin_catedra" method="post" enctype="multipart/form-data">
+            <label for="fileUpload">Seleccione el archivo maestro de autoevaluación de docentes sin cátedra</label>
+            <input class="btn btn-block btn-sm btn-default btn-flat border-primary" type="file" name="archivo_excel" id="archivo" accept=".xlsx" required>
+            <br></br>
+            <button class="btn btn-primary btn-sm btn-default btn-flat border-primary" type="submit">Subir Datos</button>
+        </form>
 
     </div>
 

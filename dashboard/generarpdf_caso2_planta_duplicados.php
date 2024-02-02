@@ -16,15 +16,15 @@ $objeto = new Conexion();
 $objeto = new Conexion();
 $conexion = $objeto->Conectar();
 
-// $servername = "10.3.1.110:3306";
-// $username = "root";
-// $password = "WNeqRzh!nHrfA9d**K!^";
-// $dbname = "evaluacion_docente1";
-
-$servername = "localhost";
+$servername = "10.3.1.110:3306";
 $username = "root";
-$password = "";
+$password = "WNeqRzh!nHrfA9d**K!^";
 $dbname = "evaluacion_docente1";
+
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "evaluacion_docente1";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -2,21 +2,21 @@
 
     //----------------------------- CAMBIAR CONEXION A BASE DE DATOS CADA VEZ QUE SE VAYAN A HACER CAMBIOS ------------------------------------------------
 
-    // $servername = "10.3.1.110:3306";
-    // $username = "root";
-    // $password = "WNeqRzh!nHrfA9d**K!^";
-    // $dbname = "evaluacion_docente";
-
-    $servername = "localhost";
+    $servername = "10.3.1.110:3306";
     $username = "root";
-    $password = "";
-    $dbname = "evaluacion_docente1";
+    $password = "WNeqRzh!nHrfA9d**K!^";
+    $dbname = "evaluacion_docente";
+
+    // $servername = "localhost";
+    // $username = "root";
+    // $password = "";
+    // $dbname = "evaluacion_docente1";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // $pdo = new PDO('mysql:host=10.3.1.110:3306;dbname=evaluacion_docente', 'root', 'WNeqRzh!nHrfA9d**K!^');
+    $pdo = new PDO('mysql:host=10.3.1.110:3306;dbname=evaluacion_docente', 'root', 'WNeqRzh!nHrfA9d**K!^');
 
-    $pdo = new PDO('mysql:host=localhost;dbname=evaluacion_docente1', 'root', '');
+    // $pdo = new PDO('mysql:host=localhost;dbname=evaluacion_docente1', 'root', '');
 
     //----------------------------- CAMBIAR CONEXION A BASE DE DATOS CADA VEZ QUE SE VAYAN A HACER CAMBIOS ------------------------------------------------
 

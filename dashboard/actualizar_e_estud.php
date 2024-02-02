@@ -2,15 +2,15 @@
 
 // Conexión a la base de datos
 
-// $servername = "10.3.1.110:3306";
-// $username = "root";
-// $password = "WNeqRzh!nHrfA9d**K!^";
-// $dbname = "evaluacion_docente";
-
-$servername = "localhost";
+$servername = "10.3.1.110:3306";
 $username = "root";
-$password = "";
-$dbname = "evaluacion_docente1";
+$password = "WNeqRzh!nHrfA9d**K!^";
+$dbname = "evaluacion_docente";
+
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "evaluacion_docente1";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -68,7 +68,7 @@ for ($i = 6; $i <= 39; $i++) {
   echo "<script>alert('¡La base de datos fue actualizada!');</script>";
   
   // redirigir a otra página después de mostrar el mensaje emergente
-  echo "<script>window.location.href = 'e_estud.php';</script>";
+  echo "<script>window.location.href = 'e_estud_py.php';</script>";
     
 
 ?>

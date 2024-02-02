@@ -2,47 +2,23 @@
 
     //----------------------------- CAMBIAR CONEXION A BASE DE DATOS CADA VEZ QUE SE VAYAN A HACER CAMBIOS ------------------------------------------------
 
-    // $servername = "10.3.1.110:3306";
-    // $username = "root";
-    // $password = "WNeqRzh!nHrfA9d**K!^";
-    // $dbname = "evaluacion_docente";
-
-    $servername = "localhost";
+    $servername = "10.3.1.110:3306";
     $username = "root";
-    $password = "";
-    $dbname = "evaluacion_docente1";
+    $password = "WNeqRzh!nHrfA9d**K!^";
+    $dbname = "evaluacion_docente";
+
+    // $servername = "localhost";
+    // $username = "root";
+    // $password = "";
+    // $dbname = "evaluacion_docente1";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // // $pdo = new PDO('mysql:host=10.3.1.110:3306;dbname=evaluacion_docente', 'root', 'WNeqRzh!nHrfA9d**K!^');
+    $pdo = new PDO('mysql:host=10.3.1.110:3306;dbname=evaluacion_docente', 'root', 'WNeqRzh!nHrfA9d**K!^');
 
-    $pdo = new PDO('mysql:host=localhost;dbname=evaluacion_docente1', 'root', '');
+    // $pdo = new PDO('mysql:host=localhost;dbname=evaluacion_docente1', 'root', '');
 
     // //----------------------------- CAMBIAR CONEXION A BASE DE DATOS CADA VEZ QUE SE VAYAN A HACER CAMBIOS ------------------------------------------------
-
-
-    // // Crear la consulta SQL para seleccionar los DOCUMENTO_DOCENTE de las tres tablas
-    // $query = "SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM ae_docente_catedra
-    // UNION 
-    // SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM ae_docente_sin_catedra
-    // UNION 
-    // SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_decano_catedra
-    // UNION 
-    // SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_decano_planta
-    // UNION 
-    // SELECT DOCUMENTO_DOCENTE, NOMBRE_DOCENTE FROM e_estud";
-
-    // // Ejecutar la consulta y guardar los resultados en un array
-    // $result = mysqli_query($conn, $query);
-    // $documentos = array();
-    // if (mysqli_num_rows($result) > 0) {
-    //     while ($row = mysqli_fetch_assoc($result)) {
-    //         $documentos[] = $row['DOCUMENTO_DOCENTE'];
-    //     }
-    // }
-
-    // // Liberar la memoria del resultado de la consulta
-    // mysqli_free_result($result);
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
